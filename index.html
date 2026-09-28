@@ -34,11 +34,11 @@ main{width:min(1040px,calc(100% - 44px));margin:22px auto 100px}.card,.hero{back
 
 .conceptlesson{background:linear-gradient(135deg,#eff6ff,#fff);border-color:#bfdbfe}.syntaxmap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.syntaxpart{background:white;border:1px solid #dbeafe;border-radius:12px;padding:14px}.syntaxpart code{display:block;margin-bottom:7px;color:#1d4ed8;font-weight:900}.beforeafter{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:14px}.statebox{background:white;border:1px solid #dbeafe;border-radius:12px;padding:15px}.bigarrow{font-size:26px;color:#2563eb;font-weight:900}
 @media(max-width:850px){.syntaxmap,.beforeafter{grid-template-columns:1fr}.bigarrow{text-align:center;transform:rotate(90deg)}}
-</style></head><body>
+.classroom{background:#fff;border:1px solid #cbd5e1}.setupgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.setupitem{padding:14px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}.setupitem b{display:block;margin-bottom:6px}.warnbox{padding:13px 15px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:8px;margin:12px 0}@media(max-width:850px){.setupgrid{grid-template-columns:1fr}}</style></head><body>
 <aside class="sidebar" id="side"><div class="brand">C01 · NEST + RN<small>CONEXIÓN API · Cuaderno 01 de 10</small></div><div class="track"><i id="track"></i></div><span id="pct"></span><div class="nav" id="nav"></div><button class="reset" onclick="resetAll()">Reiniciar progreso</button></aside>
 <div class="workspace"><header class="top"><button class="hamb" onclick="side.classList.toggle('open')">☰</button><div><small>CUADERNO DE APRENDIZAJE</small><b id="topTitle">C01 · Del endpoint a la pantalla</b></div><span class="saved">Guardado ✓</span></header><main id="main"></main></div>
 <footer class="bottom"><button class="secondary" onclick="prev()">← ANTERIOR</button><button class="complete" onclick="complete()">✓ COMPLETADO</button><button class="next" onclick="next()">SIGUIENTE →</button></footer>
-<script>const LESSONS=[{"t": "Hello Backend", "level": "INICIO", "concept": "@Controller · @Get", "route": "GET /hola", "goal": "Entender qué es un endpoint y cómo un Controller responde a una petición GET.", "code": "@Controller('hola')\nexport class HolaController {\n  @Get()\n  saludar() {\n    return { mensaje: '¡Hola desde NestJS! 🚀' };\n  }\n}", "mod": "Cambia el mensaje, añade curso: 'DAM' y conserva GET /hola.", "q": "¿Qué función cumple @Get() en este Controller?"}, {"t": "API de pizzas", "level": "INICIO", "concept": "Service · array", "route": "GET /pizzas", "goal": "Separar la entrada HTTP de la lógica que gestiona datos temporales.", "code": "@Injectable()\nexport class PizzasService {\n  private pizzas = [\n    { id: 1, nombre: 'Margarita', precio: 9 },\n    { id: 2, nombre: 'Pepperoni', precio: 11 }\n  ];\n  findAll() { return this.pizzas; }\n}\n\n@Get()\nfindAll() {\n  return this.pizzasService.findAll();\n}", "mod": "Añade una tercera pizza con emoji y precio. Comprueba GET /pizzas.", "q": "¿Por qué colocamos el array en el Service y no en el Controller?"}, {"t": "Busca mascota", "level": "BÁSICO", "concept": "@Param · find()", "route": "GET /mascotas/2", "goal": "Recuperar un elemento concreto mediante un parámetro de ruta.", "code": "@Get(':id')\nfindOne(@Param('id') id: string) {\n  return this.service.findOne(Number(id));\n}\n\nfindOne(id: number) {\n  return this.mascotas.find(m => m.id === id);\n}", "mod": "Añade una mascota nueva y prueba varios IDs, incluido uno inexistente.", "q": "¿Por qué convertimos id con Number(id)?"}, {"t": "Filtra videojuegos", "level": "BÁSICO", "concept": "@Query · filter()", "route": "GET /juegos?genero=aventura", "goal": "Distinguir un parámetro de ruta de un parámetro de consulta.", "code": "@Get()\nfindAll(@Query('genero') genero?: string) {\n  return this.service.findAll(genero);\n}\n\nfindAll(genero?: string) {\n  if (!genero) return this.juegos;\n  return this.juegos.filter(j => j.genero === genero);\n}", "mod": "Crea cuatro juegos y prueba la ruta con y sin filtro de género.", "q": "¿Cuándo usarías /juegos/3 y cuándo /juegos?genero=aventura?"}, {"t": "Mi primera conexión", "level": "CONEXIÓN", "concept": "fetch · await · JSON", "route": "RN → GET /mensaje", "goal": "Realizar la primera petición HTTP desde React Native a NestJS.", "code": "const cargarMensaje = async () => {\n  const respuesta = await fetch(\n    'http://TU_IP:3000/mensaje'\n  );\n  const datos = await respuesta.json();\n  console.log(datos);\n};", "mod": "Configura la IP, conecta cargarMensaje a un botón y observa la respuesta.", "q": "¿Por qué el móvil necesita conocer la IP del equipo donde se ejecuta NestJS?"}, {"t": "Estado de conexión", "level": "CONEXIÓN", "concept": "useState", "route": "JSON → pantalla", "goal": "Guardar la respuesta del backend y mostrarla en la interfaz.", "code": "const [mensaje, setMensaje] = useState('Sin conectar');\n\nconst cargarMensaje = async () => {\n  const r = await fetch(API_URL + '/mensaje');\n  const datos = await r.json();\n  setMensaje(datos.texto);\n};", "mod": "Muestra 🔴 antes de conectar y 🟢 cuando llegue la respuesta.", "q": "¿Qué aporta useState frente a una variable normal?"}, {"t": "Carga automática", "level": "CONEXIÓN", "concept": "useEffect", "route": "pantalla → carga inicial", "goal": "Cargar información automáticamente cuando aparece la pantalla.", "code": "useEffect(() => {\n  cargarMensaje();\n}, []);", "mod": "Carga automáticamente, conserva un botón Recargar y muestra Cargando…", "q": "¿Qué diferencia hay entre llamar cargarMensaje desde un botón y desde useEffect?"}, {"t": "Menú del restaurante", "level": "INTEGRACIÓN", "concept": "FlatList · array", "route": "GET /productos → lista", "goal": "Representar un array recibido desde NestJS como una lista móvil.", "code": "const [productos, setProductos] = useState([]);\n\n<FlatList\n  data={productos}\n  keyExtractor={(item) => String(item.id)}\n  renderItem={({ item }) => (\n    <Text>{item.emoji} {item.nombre} · {item.precio} €</Text>\n  )}\n/>", "mod": "Convierte cada producto en una tarjeta y añade un cuarto producto desde Nest.", "q": "¿Qué relación existe entre el array del Service y data={productos}?"}, {"t": "Busca superhéroe", "level": "INTEGRACIÓN", "concept": "URL dinámica", "route": "GET /heroes/:id", "goal": "Construir desde el móvil una petición dinámica por ID.", "code": "const buscarHeroe = async () => {\n  const r = await fetch(API_URL + '/heroes/' + id);\n  const heroe = await r.json();\n  setHeroe(heroe);\n};", "mod": "Añade un campo ID, botón BUSCAR y ficha con nombre, poder y universo.", "q": "Sigue el valor id desde React Native hasta @Param('id'). ¿Por dónde pasa?"}, {"t": "Likes", "level": "ESCRITURA", "concept": "PATCH", "route": "PATCH /mascotas/:id/like", "goal": "Modificar desde el móvil un dato temporal gestionado por el Service.", "code": "const r = await fetch(API_URL + '/mascotas/1/like', {\n  method: 'PATCH'\n});\nsetMascota(await r.json());\n\n@Patch(':id/like')\ndarLike(@Param('id') id: string) {\n  return this.service.darLike(Number(id));\n}", "mod": "Añade ❤️ ME GUSTA y actualiza la cifra con el objeto devuelto.", "q": "¿Por qué los likes vuelven al valor inicial cuando reiniciamos NestJS?"}, {"t": "Mini tienda", "level": "ESCRITURA", "concept": "POST · @Body", "route": "POST /productos", "goal": "Enviar desde React Native un objeto nuevo al backend.", "code": "await fetch(API_URL + '/productos', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ nombre, precio: Number(precio) })\n});\n\n@Post()\ncrear(@Body() producto) {\n  return this.service.crear(producto);\n}", "mod": "Añade nombre, precio, botón AÑADIR y actualiza después la lista.", "q": "¿Qué recorrido realiza el objeto hasta llegar a @Body()?"}, {"t": "Creature Lab", "level": "FINAL", "concept": "Integración Full Stack", "route": "APP ↔ API", "goal": "Recuperar el recorrido completo sin introducir arquitectura nueva.", "code": "React Native\n  → fetch()\n  → Controller\n  → Service\n  → array temporal\n  → JSON\n  → useState\n  → interfaz", "mod": "Combina listado, búsqueda y likes en una interfaz única, sencilla y profesional.", "q": "¿Podrías explicar el viaje completo de un dato sin mirar el código?"}];</script>
+<script>const LESSONS=[{"t": "Hello Backend", "level": "INICIO", "concept": "@Controller · @Get", "route": "GET /hola", "goal": "Entender qué es un endpoint y cómo un Controller responde a una petición GET.", "code": "@Controller('hola')\nexport class HolaController {\n  @Get()\n  saludar() {\n    return { mensaje: '¡Hola desde NestJS! 🚀' };\n  }\n}", "mod": "Cambia el mensaje, añade curso: 'DAM' y conserva GET /hola.", "q": "¿Qué función cumple @Get() en este Controller?"}, {"t": "API de pizzas", "level": "INICIO", "concept": "Service · array", "route": "GET /pizzas", "goal": "Separar la entrada HTTP de la lógica que gestiona datos temporales.", "code": "@Injectable()\nexport class PizzasService {\n  private pizzas = [\n    { id: 1, nombre: 'Margarita', precio: 9 },\n    { id: 2, nombre: 'Pepperoni', precio: 11 }\n  ];\n  findAll() { return this.pizzas; }\n}\n\n@Get()\nfindAll() {\n  return this.pizzasService.findAll();\n}", "mod": "Añade una tercera pizza con emoji y precio. Comprueba GET /pizzas.", "q": "¿Por qué colocamos el array en el Service y no en el Controller?"}, {"t": "Busca mascota", "level": "BÁSICO", "concept": "@Param · find()", "route": "GET /mascotas/2", "goal": "Recuperar un elemento concreto mediante un parámetro de ruta.", "code": "@Get(':id')\nfindOne(@Param('id') id: string) {\n  return this.service.findOne(Number(id));\n}\n\nfindOne(id: number) {\n  return this.mascotas.find(m => m.id === id);\n}", "mod": "Añade una mascota nueva y prueba varios IDs, incluido uno inexistente.", "q": "¿Por qué convertimos id con Number(id)?"}, {"t": "Filtra videojuegos", "level": "BÁSICO", "concept": "@Query · filter()", "route": "GET /juegos?genero=aventura", "goal": "Distinguir un parámetro de ruta de un parámetro de consulta.", "code": "@Get()\nfindAll(@Query('genero') genero?: string) {\n  return this.service.findAll(genero);\n}\n\nfindAll(genero?: string) {\n  if (!genero) return this.juegos;\n  return this.juegos.filter(j => j.genero === genero);\n}", "mod": "Crea cuatro juegos y prueba la ruta con y sin filtro de género.", "q": "¿Cuándo usarías /juegos/3 y cuándo /juegos?genero=aventura?"}, {"t": "Mi primera conexión", "level": "CONEXIÓN", "concept": "fetch · await · JSON", "route": "RN → GET /mensaje", "goal": "Realizar la primera petición HTTP desde React Native a NestJS.", "code": "const cargarMensaje = async () => {\n  const respuesta = await fetch(\n    'http://TU_IP_LOCAL:3000/mensaje'\n  );\n  const datos = await respuesta.json();\n  console.log(datos);\n};", "mod": "Configura la IP, conecta cargarMensaje a un botón y observa la respuesta.", "q": "¿Por qué el móvil necesita conocer la IP del equipo donde se ejecuta NestJS?"}, {"t": "Estado de conexión", "level": "CONEXIÓN", "concept": "useState", "route": "JSON → pantalla", "goal": "Guardar la respuesta del backend y mostrarla en la interfaz.", "code": "const [mensaje, setMensaje] = useState('Sin conectar');\n\nconst cargarMensaje = async () => {\n  const r = await fetch(API_URL + '/mensaje');\n  const datos = await r.json();\n  setMensaje(datos.texto);\n};", "mod": "Muestra 🔴 antes de conectar y 🟢 cuando llegue la respuesta.", "q": "¿Qué aporta useState frente a una variable normal?"}, {"t": "Carga automática", "level": "CONEXIÓN", "concept": "useEffect", "route": "pantalla → carga inicial", "goal": "Cargar información automáticamente cuando aparece la pantalla.", "code": "useEffect(() => {\n  cargarMensaje();\n}, []);", "mod": "Carga automáticamente, conserva un botón Recargar y muestra Cargando…", "q": "¿Qué diferencia hay entre llamar cargarMensaje desde un botón y desde useEffect?"}, {"t": "Menú del restaurante", "level": "INTEGRACIÓN", "concept": "FlatList · array", "route": "GET /productos → lista", "goal": "Representar un array recibido desde NestJS como una lista móvil.", "code": "const [productos, setProductos] = useState([]);\n\n<FlatList\n  data={productos}\n  keyExtractor={(item) => String(item.id)}\n  renderItem={({ item }) => (\n    <Text>{item.emoji} {item.nombre} · {item.precio} €</Text>\n  )}\n/>", "mod": "Convierte cada producto en una tarjeta y añade un cuarto producto desde Nest.", "q": "¿Qué relación existe entre el array del Service y data={productos}?"}, {"t": "Busca superhéroe", "level": "INTEGRACIÓN", "concept": "URL dinámica", "route": "GET /heroes/:id", "goal": "Construir desde el móvil una petición dinámica por ID.", "code": "const buscarHeroe = async () => {\n  const r = await fetch(API_URL + '/heroes/' + id);\n  const heroe = await r.json();\n  setHeroe(heroe);\n};", "mod": "Añade un campo ID, botón BUSCAR y ficha con nombre, poder y universo.", "q": "Sigue el valor id desde React Native hasta @Param('id'). ¿Por dónde pasa?"}, {"t": "Likes", "level": "ESCRITURA", "concept": "PATCH", "route": "PATCH /mascotas/:id/like", "goal": "Modificar desde el móvil un dato temporal gestionado por el Service.", "code": "const r = await fetch(API_URL + '/mascotas/1/like', {\n  method: 'PATCH'\n});\nsetMascota(await r.json());\n\n@Patch(':id/like')\ndarLike(@Param('id') id: string) {\n  return this.service.darLike(Number(id));\n}", "mod": "Añade ❤️ ME GUSTA y actualiza la cifra con el objeto devuelto.", "q": "¿Por qué los likes vuelven al valor inicial cuando reiniciamos NestJS?"}, {"t": "Mini tienda", "level": "ESCRITURA", "concept": "POST · @Body", "route": "POST /productos", "goal": "Enviar desde React Native un objeto nuevo al backend.", "code": "await fetch(API_URL + '/productos', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ nombre, precio: Number(precio) })\n});\n\n@Post()\ncrear(@Body() producto) {\n  return this.service.crear(producto);\n}", "mod": "Añade nombre, precio, botón AÑADIR y actualiza después la lista.", "q": "¿Qué recorrido realiza el objeto hasta llegar a @Body()?"}, {"t": "Creature Lab", "level": "FINAL", "concept": "Integración Full Stack", "route": "APP ↔ API", "goal": "Recuperar el recorrido completo sin introducir arquitectura nueva.", "code": "React Native\n  → fetch()\n  → Controller\n  → Service\n  → array temporal\n  → JSON\n  → useState\n  → interfaz", "mod": "Combina listado, búsqueda y likes en una interfaz única, sencilla y profesional.", "q": "¿Podrías explicar el viaje completo de un dato sin mirar el código?"}];</script>
 
 <script>
 let page=Number(localStorage.getItem('fsl_page') ?? -1);
@@ -137,7 +137,7 @@ function prepareBlock(i,x){
 <div class="step"><b>1 · BACKEND</b><br>Crea el proyecto NestJS dentro de <code>backend/</code>, genera Controller/Service cuando corresponda y escribe primero su código completo.</div>
 <div class="step"><b>2 · PRUEBA LA API</b><br>Arranca Nest con <code>npm run start:dev</code> y comprueba el endpoint antes de abrir React Native.</div>
 <div class="step"><b>3 · CREA REACT NATIVE CON EXPO</b><br>Desde la raíz de EJERCICIO-${String(i+1).padStart(2,'0')} ejecuta <code>npx create-expo-app@latest frontend</code>.</div>
-<div class="step"><b>4 · CONECTA LOS DOS MUNDOS</b><br>Obtén la IP local del ordenador y configura <code>API_URL = 'http://TU_IP:3000'</code>. El móvil y el ordenador deben poder comunicarse por la red.</div>
+<div class="step"><b>4 · CONECTA LOS DOS MUNDOS</b><br>Obtén la IP local del ordenador y configura <code>API_URL = 'http://TU_IP_LOCAL:3000'</code>. El móvil y el ordenador deben poder comunicarse por la red.</div>
 <div class="step"><b>5 · FRONTEND</b><br>Abre <code>frontend/App.tsx</code>, escribe el código completo de la pestaña correspondiente y arranca Expo con <code>npx expo start</code>.</div>
 <div class="step"><b>6 · COMPRUEBA EXTREMO A EXTREMO</b><br>Acción en React Native → petición HTTP → Controller → Service/datos → JSON → interfaz.</div></div>`:''}
 <div class="preparegrid"><div><span class="fieldlabel">COMANDOS</span><div class="terminalcmd">${esc(commands)}</div>${notes}</div><div><span class="fieldlabel">ESTRUCTURA QUE DEBES OBTENER</span><div class="structure">${esc(structure)}</div></div></div><div class="filepurpose"><div><b>1 · CREA</b><br>Genera primero la estructura.</div><div><b>2 · COMPRUEBA</b><br>Localiza los archivos que aparecen en las pestañas del siguiente bloque. Solo entonces copia y estudia su código.</div></div></section>`;
@@ -304,7 +304,7 @@ import {
   View,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 type Producto = {
   id: number;
@@ -501,7 +501,7 @@ import {
   View,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 type Criatura = {
   id: number;
@@ -642,7 +642,7 @@ import {
   Text,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 export default function App() {
   const [mensaje, setMensaje] =
@@ -706,7 +706,7 @@ import {
   Text,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 export default function App() {
   const [mensaje, setMensaje] =
@@ -793,7 +793,7 @@ import {
   View,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 type Producto = {
   id: number;
@@ -897,7 +897,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 type Heroe = {
   id: number;
@@ -1002,7 +1002,7 @@ import {
   Text,
 } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 export default function App() {
   const [likes, setLikes] = useState(14);
@@ -1056,7 +1056,7 @@ export class MensajeController {
 }`},
   {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Muestra un botón y realiza fetch() contra GET /mensaje.',code:`import { Button, SafeAreaView, Text } from 'react-native';
 
-const API_URL = 'http://TU_IP:3000';
+const API_URL = 'http://TU_IP_LOCAL:3000';
 
 export default function App() {
   const cargarMensaje = async () => {
@@ -1109,7 +1109,17 @@ export class MascotasController {
   return [{name:'App.tsx',code:x.code,role:'Código del ejercicio'}];
 }
 function codeViewer(i,x){
- const files=codeFiles(i,x);
+ let files=codeFiles(i,x);
+ if(i>=4){ files=[{name:'main.ts',path:'backend/src/main.ts',role:'BACKEND · Arranca NestJS, habilita CORS y escucha en el puerto 3000.',code:`import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  await app.listen(3000);
+}
+
+bootstrap();`}, ...files]; }
  const intro=files.length>1?`<div class="readingorder"><b>Cómo leer este ejemplo:</b> empieza por <b>${files[0].name}</b> para entender ${files[0].role.toLowerCase()}. Después abre <b>${files[1].name}</b> para ver cómo continúa el recorrido. Las pestañas separan responsabilidades; no son dos ejercicios distintos.</div>`:'';
  const tabs=files.length>1?`<div class="filetabs">${files.map((f,j)=>`<button class="filetab ${j===0?'active':''}" onclick="switchFile(this,'pane-${i}-${j}')">${f.name}</button>`).join('')}</div>`:'';
  const panes=files.map((f,j)=>`<div id="pane-${i}-${j}" class="codepane ${j===0?'active':''}"><span class="filepath">${f.path||f.name}</span><div class="responsibility">${f.role}</div><div class="code">${esc(f.code)}</div></div>`).join('');
@@ -1146,12 +1156,16 @@ npm run start:dev</div>
 npx create-expo-app@latest frontend
 cd frontend
 npx expo start</div><p>El archivo principal que estudiarás está en <code>frontend/App.tsx</code>.</p></section>
- <section class="card phase connect"><div class="tag">UNE FRONTEND + BACKEND</div><h2>4. Configura la dirección de la API</h2><p>En <code>frontend/App.tsx</code> define:</p><div class="terminalcmd">const API_URL = 'http://TU_IP:3000';</div><p>Primero comprueba el backend por separado. Después ejecuta Expo y comprueba el recorrido completo desde la acción o carga de React Native hasta NestJS y de vuelta a la interfaz.</p></section>`;
+ <section class="card phase connect"><div class="tag">UNE FRONTEND + BACKEND</div><h2>4. Configura CORS, IP local y API_URL</h2><p>Comprueba <code>app.enableCors()</code> en <code>backend/src/main.ts</code>. En Windows ejecuta <code>ipconfig</code> y busca la Dirección IPv4. Después, en <code>frontend/App.tsx</code> define:</p><div class="terminalcmd">const API_URL = 'http://TU_IP_LOCAL:3000';</div><p>Primero comprueba el backend por separado. Después ejecuta Expo y comprueba el recorrido completo desde la acción o carga de React Native hasta NestJS y de vuelta a la interfaz.</p></section>`;
+}
+function classroomSetup(i){
+ const num=String(i+1).padStart(2,'0'), full=i>=4;
+ return `<section class="card classroom"><div class="tag">CONFIGURACIÓN DEL ORDENADOR · EJERCICIO ${num}</div><h2>Empieza aquí aunque el ordenador esté sin preparar</h2><div class="setupgrid"><div class="setupitem"><b>1 · NODE + NPM</b><div class="terminalcmd">node --version\nnpm --version</div><p>Si falla, instala Node.js LTS.</p></div><div class="setupitem"><b>2 · NEST CLI</b><div class="terminalcmd">nest --version</div><p>Si falla:</p><div class="terminalcmd">npm install -g @nestjs/cli</div></div></div>${full?`<div class="setupgrid" style="margin-top:12px"><div class="setupitem"><b>3 · EXPO</b><div class="terminalcmd">npx create-expo-app@latest frontend\ncd frontend\nnpx expo start</div></div><div class="setupitem"><b>4 · IP LOCAL</b><div class="terminalcmd">ipconfig</div><p>Busca <b>Dirección IPv4</b>.</p></div></div><div class="warnbox"><b>CORS + RED</b><br>Configura <code>app.enableCors()</code> en <code>backend/src/main.ts</code>. En móvil físico usa normalmente <code>http://TU_IP_LOCAL:3000</code>, no localhost.</div>`:''}<div class="note"><b>Ejercicio-isla:</b> comprueba el entorno en cada ejercicio.</div></section>`;
 }
 function lesson(i){
  const x=LESSONS[i];
  return `<section class="card"><div class="tag">EJERCICIO ${String(i+1).padStart(2,'0')} · ${x.level}</div><h1>${x.t}</h1><p>${x.goal}</p><div class="chips"><span class="chip">${x.concept}</span><span class="chip">${x.route}</span></div><div class="flow"><div>📱 React Native</div><div>🎮 Controller</div><div>⚙️ Service</div><div>📦 Array</div></div></section>
- ${conceptBlock(i,x)}<section class="card"><div class="tag">1 · LEE</div><h2>Antes de programar</h2><div class="readgrid"><div class="mini"><span class="fieldlabel">OBJETIVO</span><div>${x.goal}</div></div><div class="mini"><span class="fieldlabel">CONTEXTO</span><div>Construiremos una pieza pequeña y comprobable del recorrido Full Stack.</div></div><div class="mini"><span class="fieldlabel">YA UTILIZAS</span><div>Los conceptos trabajados en ejercicios anteriores, pero dentro de un proyecto independiente.</div></div><div class="mini"><span class="fieldlabel">CONCEPTO NUEVO</span><div><b>${x.concept}</b></div></div></div></section>
+ ${conceptBlock(i,x)}${classroomSetup(i)}<section class="card"><div class="tag">1 · LEE</div><h2>Antes de programar</h2><div class="readgrid"><div class="mini"><span class="fieldlabel">OBJETIVO</span><div>${x.goal}</div></div><div class="mini"><span class="fieldlabel">CONTEXTO</span><div>Construiremos una pieza pequeña y comprobable del recorrido Full Stack.</div></div><div class="mini"><span class="fieldlabel">YA UTILIZAS</span><div>Los conceptos trabajados en ejercicios anteriores, pero dentro de un proyecto independiente.</div></div><div class="mini"><span class="fieldlabel">CONCEPTO NUEVO</span><div><b>${x.concept}</b></div></div></div></section>
  ${prepareBlock(i,x)}
  ${i>=5&&i<=9?fullStackPhases(i,x):''}
  ${i===4?`<section class="card phase backend"><div class="tag">CONSTRUYE BACKEND</div><h2>1. Prepara primero aquello que React Native va a llamar</h2><p>En este primer ejercicio de conexión <b>no necesitamos Service todavía</b>: el objetivo es aislar y comprender la comunicación HTTP. El Controller puede devolver directamente un mensaje sencillo.</p><div class="terminalcmd">cd backend
@@ -1167,7 +1181,7 @@ Respuesta esperada:
 npx create-expo-app@latest frontend
 cd frontend
 npx expo start</div><p>El archivo que modificaremos será <code>frontend/App.tsx</code>.</p></section>
- <section class="card phase connect"><div class="tag">CONECTA FRONT + BACK</div><h2>4. El móvil debe saber dónde está NestJS</h2><p><code>localhost</code> dentro del móvil no representa necesariamente tu ordenador. Para una prueba en dispositivo físico utiliza la IP local del equipo que ejecuta NestJS.</p><div class="conceptbox"><b>En App.tsx:</b><br><code>const API_URL = 'http://TU_IP:3000';</code><br><br>Ejemplo conceptual: <code>http://192.168.x.x:3000</code></div><p>Ahora sí tiene sentido escribir <code>fetch(API_URL + '/mensaje')</code>: el endpoint existe, lo has probado y conoces su dirección.</p></section>`:''}
+ <section class="card phase connect"><div class="tag">CONECTA FRONT + BACK</div><h2>4. El móvil debe saber dónde está NestJS</h2><p><code>localhost</code> dentro del móvil no representa necesariamente tu ordenador. Para una prueba en dispositivo físico utiliza la IP local del equipo que ejecuta NestJS.</p><div class="conceptbox"><b>En App.tsx:</b><br><code>const API_URL = 'http://TU_IP_LOCAL:3000';</code><br><br>Ejemplo conceptual: <code>http://192.168.x.x:3000</code></div><p>Ahora sí tiene sentido escribir <code>fetch(API_URL + '/mensaje')</code>: el endpoint existe, lo has probado y conoces su dirección.</p></section>`:''}
  <section class="card codecard"><button class="copy" onclick="copyCode(${i},this)">Copiar</button><div class="tag">2 · OBSERVA EL CÓDIGO COMPLETO</div><h2>Observa los archivos completos y su ubicación</h2><p><b>Cada pestaña debe contener un archivo completo:</b> imports, decoradores, constructor, métodos y lógica necesaria. No hay fragmentos ocultos ni código que debas inventar. Usa las pestañas para recorrer las clases. Lee primero la responsabilidad de cada archivo y después observa el código completo antes de modificar nada.</p>${codeViewer(i,x)}</section>
  <section class="card understand"><div style="padding:24px 24px 10px"><div class="tag">3 · ENTIENDE</div><h2>Código → explicación</h2></div>${understandRows(x)}</section>
  <section class="card modify"><div class="tag">4 · MODIFÍCALO</div><h2>Ahora hazlo tuyo</h2><div class="modgrid"><div><h3>AVANZA POR PASOS</h3><div class="step">Ejecuta primero el ejemplo sin modificarlo.</div><div class="step">${x.mod}</div><div class="step">Conserva la funcionalidad principal del ejemplo.</div><div class="step">Vuelve a probar el resultado antes de continuar.</div><p><b>Condición:</b> trabaja en tu proyecto; esta web no sustituye tu código.</p></div><div class="preview">${pv(i,x)}<p style="text-align:center;color:#64748b;font-size:12px">Resultado aproximado</p></div></div></section>
