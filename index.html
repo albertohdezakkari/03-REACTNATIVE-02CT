@@ -297,12 +297,12 @@ export class ProductosService {
 import {
   Button,
   FlatList,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -495,11 +495,11 @@ import {
   Button,
   FlatList,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -637,10 +637,10 @@ export class MensajeController {
  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Usa useState para guardar y representar la respuesta del backend.',code:`import { useState } from 'react';
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -701,10 +701,10 @@ export class MensajeController {
  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Usa useEffect para realizar la carga inicial y conserva un botón para recargar.',code:`import { useEffect, useState } from 'react';
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -787,11 +787,11 @@ export class ProductosService {
  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Carga el array, lo guarda en estado y FlatList representa cada objeto.',code:`import { useEffect, useState } from 'react';
 import {
   FlatList,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -891,11 +891,11 @@ export class HeroesService {
  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · El ID escrito por el usuario se incorpora a la URL y termina llegando a @Param.',code:`import { useState } from 'react';
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -997,10 +997,10 @@ export class MascotasService {
  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Envía PATCH, recibe el objeto actualizado y refresca el estado visual.',code:`import { useState } from 'react';
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -1054,7 +1054,8 @@ export class MensajeController {
     };
   }
 }`},
-  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Muestra un botón y realiza fetch() contra GET /mensaje.',code:`import { Button, SafeAreaView, Text } from 'react-native';
+  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Muestra un botón y realiza fetch() contra GET /mensaje.',code:`import { Button, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_URL = 'http://TU_IP_LOCAL:3000';
 
@@ -1155,7 +1156,8 @@ npm run start:dev</div>
  <section class="card phase front"><div class="tag">CREA REACT NATIVE · EXPO</div><h2>3. Crea ahora el segundo proyecto de la isla</h2><div class="terminalcmd"># Nueva terminal, desde EJERCICIO-${num}
 npx create-expo-app@latest frontend
 cd frontend
-npx expo start</div><p>El archivo principal que estudiarás está en <code>frontend/App.tsx</code>.</p></section>
+npx expo install react-native-safe-area-context
+npx expo start</div><div class="commandnote"><b>DEPENDENCIA DE INTERFAZ · SafeAreaView</b><br>Antes de abrir <code>App.tsx</code> instalamos <code>react-native-safe-area-context</code>. La utilizaremos para que el contenido respete las zonas seguras del dispositivo (barra de estado, notch y bordes del sistema).</div><p>El archivo principal que estudiarás está en <code>frontend/App.tsx</code>.</p></section>
  <section class="card phase connect"><div class="tag">UNE FRONTEND + BACKEND</div><h2>4. Configura CORS, IP local y API_URL</h2><p>Comprueba <code>app.enableCors()</code> en <code>backend/src/main.ts</code>. En Windows ejecuta <code>ipconfig</code> y busca la Dirección IPv4. Después, en <code>frontend/App.tsx</code> define:</p><div class="terminalcmd">const API_URL = 'http://TU_IP_LOCAL:3000';</div><p>Primero comprueba el backend por separado. Después ejecuta Expo y comprueba el recorrido completo desde la acción o carga de React Native hasta NestJS y de vuelta a la interfaz.</p></section>`;
 }
 function classroomSetup(i){
@@ -1180,7 +1182,8 @@ Respuesta esperada:
  <section class="card phase front"><div class="tag">CREA EXPO</div><h2>3. Ahora crea el frontend de esta isla</h2><div class="terminalcmd"># Desde EJERCICIO-05
 npx create-expo-app@latest frontend
 cd frontend
-npx expo start</div><p>El archivo que modificaremos será <code>frontend/App.tsx</code>.</p></section>
+npx expo install react-native-safe-area-context
+npx expo start</div><div class="commandnote"><b>¿QUÉ HEMOS INSTALADO?</b><br><code>react-native-safe-area-context</code> nos permite usar <code>SafeAreaView</code> respetando las zonas seguras del dispositivo. No lo importaremos desde <code>react-native</code>.</div><p>El archivo que modificaremos será <code>frontend/App.tsx</code>.</p></section>
  <section class="card phase connect"><div class="tag">CONECTA FRONT + BACK</div><h2>4. El móvil debe saber dónde está NestJS</h2><p><code>localhost</code> dentro del móvil no representa necesariamente tu ordenador. Para una prueba en dispositivo físico utiliza la IP local del equipo que ejecuta NestJS.</p><div class="conceptbox"><b>En App.tsx:</b><br><code>const API_URL = 'http://TU_IP_LOCAL:3000';</code><br><br>Ejemplo conceptual: <code>http://192.168.x.x:3000</code></div><p>Ahora sí tiene sentido escribir <code>fetch(API_URL + '/mensaje')</code>: el endpoint existe, lo has probado y conoces su dirección.</p></section>`:''}
  <section class="card codecard"><button class="copy" onclick="copyCode(${i},this)">Copiar</button><div class="tag">2 · OBSERVA EL CÓDIGO COMPLETO</div><h2>Observa los archivos completos y su ubicación</h2><p><b>Cada pestaña debe contener un archivo completo:</b> imports, decoradores, constructor, métodos y lógica necesaria. No hay fragmentos ocultos ni código que debas inventar. Usa las pestañas para recorrer las clases. Lee primero la responsabilidad de cada archivo y después observa el código completo antes de modificar nada.</p>${codeViewer(i,x)}</section>
  <section class="card understand"><div style="padding:24px 24px 10px"><div class="tag">3 · ENTIENDE</div><h2>Código → explicación</h2></div>${understandRows(x)}</section>
