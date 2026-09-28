@@ -1,0 +1,1199 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CUADERNO 01 · NEST + RN · CONEXIÓN API</title><style>
+:root{--blue:#2563EB;--cyan:#06B6D4;--green:#10B981;--orange:#F59E0B;--bg:#F4F7FB;--nav:#101827;--ink:#172033;--muted:#64748B;--line:#DCE4EF;--code:#0B1220}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}button{font:inherit;cursor:pointer}
+.sidebar{position:fixed;inset:0 auto 0 0;width:310px;background:var(--nav);color:white;padding:24px 18px;overflow:auto;z-index:30}
+.brand{font-size:20px;font-weight:900}.brand small{display:block;color:#9FB0C8;font-size:12px}.track{height:7px;background:#29364B;border-radius:10px;margin:20px 0 6px;overflow:hidden}.track i{display:block;height:100%;background:var(--cyan)}
+#pct{font-size:12px;color:#BDC8D8}.nav{display:grid;gap:4px;margin-top:16px}.nav button{border:0;background:transparent;color:#B7C3D5;text-align:left;padding:8px 9px;border-radius:8px}.nav button:hover,.nav button.on{background:#22304A;color:white}.nav button.done:after{content:" ✓";color:#6EE7B7}
+.reset{width:100%;margin-top:18px;background:transparent;border:1px solid #475569;color:#CBD5E1;padding:8px;border-radius:8px}
+.workspace{margin-left:310px}.top{height:64px;position:sticky;top:0;z-index:20;background:#fffffff2;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px}.top small{display:block;color:var(--blue);font-weight:900;letter-spacing:.07em}.saved{color:#059669;font-weight:800;font-size:13px}
+main{width:min(1040px,calc(100% - 44px));margin:22px auto 100px}.card,.hero{background:white;border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:15px;box-shadow:0 3px 14px #1e293b0a}.hero{padding:34px;background:linear-gradient(135deg,#fff,#EDF4FF)}.hero h1{font-size:38px;line-height:1.08;margin:6px 0 12px}.tag{font-size:12px;color:var(--blue);font-weight:900;letter-spacing:.08em}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{padding:5px 9px;border-radius:99px;background:#EEF4FF;color:#2454A6;font-size:12px;font-weight:800}
+.homegrid,.readgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{background:#F8FAFC;padding:13px;border-radius:10px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}.flow div{border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}.codecard{background:var(--code);color:#DBEAFE}.codecard .tag{color:#67E8F9}.copy{float:right;background:#17233A;color:white;border:1px solid #475569;border-radius:8px;padding:6px 9px}.code{white-space:pre;overflow:auto;font:13px/1.65 ui-monospace,monospace;margin-top:14px}
+.understand{padding:0;overflow:hidden}.urow{display:grid;grid-template-columns:35% 65%;border-top:1px solid var(--line)}.urow:first-child{border-top:0}.ucode{background:#111A2C;color:#DBEAFE;padding:14px;font:13px monospace}.uexp{padding:14px}
+.modify{background:#FFFBEB;border-color:#FDE68A}.modgrid{display:grid;grid-template-columns:65fr 35fr;gap:22px}.step{background:white;padding:12px;border-radius:10px;margin:8px 0}.preview{position:sticky;top:84px;align-self:start}.terminal{background:#07111F;color:#D7E7FF;border:7px solid #172033;border-radius:15px;min-height:270px;padding:17px;font:13px/1.7 monospace}.ok{color:#6EE7B7}.phone{width:280px;max-width:100%;min-height:420px;margin:auto;background:white;border:9px solid #111827;border-radius:36px;padding:18px;box-shadow:0 18px 38px #1e293b22}.notch{width:75px;height:7px;background:#111827;border-radius:8px;margin:-4px auto 20px}.screenTitle{font-size:20px;font-weight:900}.mobileCard{background:#EFF6FF;padding:14px;border-radius:13px;margin-top:16px}.primary{width:100%;border:0;background:var(--blue);color:white;padding:11px;border-radius:10px;font-weight:800;margin-top:14px}
+.checks label{display:block;margin:9px}.checks input{width:18px;height:18px;vertical-align:-3px;margin-right:7px}.quiz{background:#EFF6FF}.answers button{display:block;width:100%;margin:7px 0;padding:10px;text-align:left;background:white;border:1px solid #CBD5E1;border-radius:9px}.feedback{font-weight:800}.github{background:#F5F3FF;border-color:#DDD6FE}.cmd{background:#0B1220;color:#DBEAFE;padding:13px;border-radius:10px;font:13px monospace;white-space:pre-wrap}.close{background:#ECFDF5;border-color:#A7F3D0}.close h2{color:#047857}
+.bottom{position:fixed;left:310px;right:0;bottom:0;z-index:20;background:#fffffff2;backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:11px;display:flex;justify-content:center;gap:8px}.bottom button{padding:9px 14px;border-radius:9px;font-weight:800}.secondary{background:white;border:1px solid #CBD5E1}.complete{background:#172033;color:white;border:0}.next{background:var(--blue);color:white;border:0}.hamb{display:none}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:none}.workspace{margin-left:0}.hamb{display:block}.top{padding:0 14px}.homegrid,.readgrid,.flow,.modgrid,.urow{grid-template-columns:1fr}.preview{position:static}.bottom{left:0}.hero h1{font-size:30px}main{width:calc(100% - 28px)}}
+
+.conceptbox{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:14px;padding:18px;margin:12px 0}
+.conceptbox h3{margin:0 0 7px;color:#1d4ed8}.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare>div{background:white;border:1px solid #dbeafe;border-radius:11px;padding:14px}.repo{background:#0b1220;color:#dbeafe;border-radius:13px;padding:17px;font:13px/1.65 monospace;white-space:pre-wrap}
+.bridge{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}.bridge>div{padding:15px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0}.arrow{font-size:24px;color:#2563eb;font-weight:900}
+.note{border-left:4px solid #06b6d4;background:#ecfeff;padding:13px 15px;border-radius:8px}.future{border-left:4px solid #10b981;background:#ecfdf5;padding:13px 15px;border-radius:8px}
+@media(max-width:850px){.compare,.bridge{grid-template-columns:1fr}.arrow{text-align:center;transform:rotate(90deg)}}
+
+.filetabs{display:flex;gap:6px;margin:15px 0 0;flex-wrap:wrap}.filetab{border:1px solid #334155;background:#111a2c;color:#aebbd0;padding:8px 11px;border-radius:9px 9px 0 0;font:12px ui-monospace,monospace}.filetab.active{background:#1d4ed8;color:white;border-color:#3b82f6}.codepane{display:none}.codepane.active{display:block}.readingorder{margin-top:12px;padding:11px 13px;background:#17233a;border-radius:9px;color:#cbd5e1}.readingorder b{color:#67e8f9}
+.deliverygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.deliveryitem{background:white;border:1px solid #ddd6fe;border-radius:12px;padding:14px}.deliveryitem small{display:block;color:#7c3aed;font-weight:900;letter-spacing:.06em}.deliveryitem b{display:block;margin-top:5px;font-family:ui-monospace,monospace}.layerintro{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px;margin:12px 0}.layerflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}.layerflow span{background:white;border:1px solid #dbeafe;border-radius:8px;padding:7px 9px;font-weight:800}.layerflow i{color:#2563eb;font-style:normal;font-weight:900}
+@media(max-width:850px){.deliverygrid{grid-template-columns:1fr}}
+
+.mini b{display:block;margin-bottom:6px;color:#334155}.mini{line-height:1.5}.readgrid{gap:14px}
+.prepare{background:#f8fafc;border-color:#cbd5e1}.preparegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.terminalcmd{background:#07111f;color:#dbeafe;border-radius:12px;padding:15px;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap}.structure{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:15px;font:13px/1.65 ui-monospace,monospace;white-space:pre-wrap}.commandnote{margin-top:9px;padding:10px 12px;border-left:3px solid #06b6d4;background:#ecfeff;border-radius:7px}.filepurpose{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:10px}.filepurpose div{padding:10px;border-radius:8px;background:white;border:1px solid #e2e8f0}.fieldlabel{display:block;font-size:11px;letter-spacing:.06em;font-weight:900;color:#64748b;margin-bottom:5px}
+@media(max-width:850px){.preparegrid,.filepurpose{grid-template-columns:1fr}}
+
+.phase{border-left:5px solid #2563eb}.phase.backend{border-left-color:#06b6d4}.phase.front{border-left-color:#8b5cf6}.phase.connect{border-left-color:#f59e0b}
+.filepath{display:block;margin:10px 0 4px;color:#67e8f9;font:12px ui-monospace,monospace}.responsibility{color:#cbd5e1;font-size:13px;margin-bottom:4px}
+
+.conceptlesson{background:linear-gradient(135deg,#eff6ff,#fff);border-color:#bfdbfe}.syntaxmap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.syntaxpart{background:white;border:1px solid #dbeafe;border-radius:12px;padding:14px}.syntaxpart code{display:block;margin-bottom:7px;color:#1d4ed8;font-weight:900}.beforeafter{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:14px}.statebox{background:white;border:1px solid #dbeafe;border-radius:12px;padding:15px}.bigarrow{font-size:26px;color:#2563eb;font-weight:900}
+@media(max-width:850px){.syntaxmap,.beforeafter{grid-template-columns:1fr}.bigarrow{text-align:center;transform:rotate(90deg)}}
+</style></head><body>
+<aside class="sidebar" id="side"><div class="brand">C01 · NEST + RN<small>CONEXIÓN API · Cuaderno 01 de 10</small></div><div class="track"><i id="track"></i></div><span id="pct"></span><div class="nav" id="nav"></div><button class="reset" onclick="resetAll()">Reiniciar progreso</button></aside>
+<div class="workspace"><header class="top"><button class="hamb" onclick="side.classList.toggle('open')">☰</button><div><small>CUADERNO DE APRENDIZAJE</small><b id="topTitle">C01 · Del endpoint a la pantalla</b></div><span class="saved">Guardado ✓</span></header><main id="main"></main></div>
+<footer class="bottom"><button class="secondary" onclick="prev()">← ANTERIOR</button><button class="complete" onclick="complete()">✓ COMPLETADO</button><button class="next" onclick="next()">SIGUIENTE →</button></footer>
+<script>const LESSONS=[{"t": "Hello Backend", "level": "INICIO", "concept": "@Controller · @Get", "route": "GET /hola", "goal": "Entender qué es un endpoint y cómo un Controller responde a una petición GET.", "code": "@Controller('hola')\nexport class HolaController {\n  @Get()\n  saludar() {\n    return { mensaje: '¡Hola desde NestJS! 🚀' };\n  }\n}", "mod": "Cambia el mensaje, añade curso: 'DAM' y conserva GET /hola.", "q": "¿Qué función cumple @Get() en este Controller?"}, {"t": "API de pizzas", "level": "INICIO", "concept": "Service · array", "route": "GET /pizzas", "goal": "Separar la entrada HTTP de la lógica que gestiona datos temporales.", "code": "@Injectable()\nexport class PizzasService {\n  private pizzas = [\n    { id: 1, nombre: 'Margarita', precio: 9 },\n    { id: 2, nombre: 'Pepperoni', precio: 11 }\n  ];\n  findAll() { return this.pizzas; }\n}\n\n@Get()\nfindAll() {\n  return this.pizzasService.findAll();\n}", "mod": "Añade una tercera pizza con emoji y precio. Comprueba GET /pizzas.", "q": "¿Por qué colocamos el array en el Service y no en el Controller?"}, {"t": "Busca mascota", "level": "BÁSICO", "concept": "@Param · find()", "route": "GET /mascotas/2", "goal": "Recuperar un elemento concreto mediante un parámetro de ruta.", "code": "@Get(':id')\nfindOne(@Param('id') id: string) {\n  return this.service.findOne(Number(id));\n}\n\nfindOne(id: number) {\n  return this.mascotas.find(m => m.id === id);\n}", "mod": "Añade una mascota nueva y prueba varios IDs, incluido uno inexistente.", "q": "¿Por qué convertimos id con Number(id)?"}, {"t": "Filtra videojuegos", "level": "BÁSICO", "concept": "@Query · filter()", "route": "GET /juegos?genero=aventura", "goal": "Distinguir un parámetro de ruta de un parámetro de consulta.", "code": "@Get()\nfindAll(@Query('genero') genero?: string) {\n  return this.service.findAll(genero);\n}\n\nfindAll(genero?: string) {\n  if (!genero) return this.juegos;\n  return this.juegos.filter(j => j.genero === genero);\n}", "mod": "Crea cuatro juegos y prueba la ruta con y sin filtro de género.", "q": "¿Cuándo usarías /juegos/3 y cuándo /juegos?genero=aventura?"}, {"t": "Mi primera conexión", "level": "CONEXIÓN", "concept": "fetch · await · JSON", "route": "RN → GET /mensaje", "goal": "Realizar la primera petición HTTP desde React Native a NestJS.", "code": "const cargarMensaje = async () => {\n  const respuesta = await fetch(\n    'http://TU_IP:3000/mensaje'\n  );\n  const datos = await respuesta.json();\n  console.log(datos);\n};", "mod": "Configura la IP, conecta cargarMensaje a un botón y observa la respuesta.", "q": "¿Por qué el móvil necesita conocer la IP del equipo donde se ejecuta NestJS?"}, {"t": "Estado de conexión", "level": "CONEXIÓN", "concept": "useState", "route": "JSON → pantalla", "goal": "Guardar la respuesta del backend y mostrarla en la interfaz.", "code": "const [mensaje, setMensaje] = useState('Sin conectar');\n\nconst cargarMensaje = async () => {\n  const r = await fetch(API_URL + '/mensaje');\n  const datos = await r.json();\n  setMensaje(datos.texto);\n};", "mod": "Muestra 🔴 antes de conectar y 🟢 cuando llegue la respuesta.", "q": "¿Qué aporta useState frente a una variable normal?"}, {"t": "Carga automática", "level": "CONEXIÓN", "concept": "useEffect", "route": "pantalla → carga inicial", "goal": "Cargar información automáticamente cuando aparece la pantalla.", "code": "useEffect(() => {\n  cargarMensaje();\n}, []);", "mod": "Carga automáticamente, conserva un botón Recargar y muestra Cargando…", "q": "¿Qué diferencia hay entre llamar cargarMensaje desde un botón y desde useEffect?"}, {"t": "Menú del restaurante", "level": "INTEGRACIÓN", "concept": "FlatList · array", "route": "GET /productos → lista", "goal": "Representar un array recibido desde NestJS como una lista móvil.", "code": "const [productos, setProductos] = useState([]);\n\n<FlatList\n  data={productos}\n  keyExtractor={(item) => String(item.id)}\n  renderItem={({ item }) => (\n    <Text>{item.emoji} {item.nombre} · {item.precio} €</Text>\n  )}\n/>", "mod": "Convierte cada producto en una tarjeta y añade un cuarto producto desde Nest.", "q": "¿Qué relación existe entre el array del Service y data={productos}?"}, {"t": "Busca superhéroe", "level": "INTEGRACIÓN", "concept": "URL dinámica", "route": "GET /heroes/:id", "goal": "Construir desde el móvil una petición dinámica por ID.", "code": "const buscarHeroe = async () => {\n  const r = await fetch(API_URL + '/heroes/' + id);\n  const heroe = await r.json();\n  setHeroe(heroe);\n};", "mod": "Añade un campo ID, botón BUSCAR y ficha con nombre, poder y universo.", "q": "Sigue el valor id desde React Native hasta @Param('id'). ¿Por dónde pasa?"}, {"t": "Likes", "level": "ESCRITURA", "concept": "PATCH", "route": "PATCH /mascotas/:id/like", "goal": "Modificar desde el móvil un dato temporal gestionado por el Service.", "code": "const r = await fetch(API_URL + '/mascotas/1/like', {\n  method: 'PATCH'\n});\nsetMascota(await r.json());\n\n@Patch(':id/like')\ndarLike(@Param('id') id: string) {\n  return this.service.darLike(Number(id));\n}", "mod": "Añade ❤️ ME GUSTA y actualiza la cifra con el objeto devuelto.", "q": "¿Por qué los likes vuelven al valor inicial cuando reiniciamos NestJS?"}, {"t": "Mini tienda", "level": "ESCRITURA", "concept": "POST · @Body", "route": "POST /productos", "goal": "Enviar desde React Native un objeto nuevo al backend.", "code": "await fetch(API_URL + '/productos', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ nombre, precio: Number(precio) })\n});\n\n@Post()\ncrear(@Body() producto) {\n  return this.service.crear(producto);\n}", "mod": "Añade nombre, precio, botón AÑADIR y actualiza después la lista.", "q": "¿Qué recorrido realiza el objeto hasta llegar a @Body()?"}, {"t": "Creature Lab", "level": "FINAL", "concept": "Integración Full Stack", "route": "APP ↔ API", "goal": "Recuperar el recorrido completo sin introducir arquitectura nueva.", "code": "React Native\n  → fetch()\n  → Controller\n  → Service\n  → array temporal\n  → JSON\n  → useState\n  → interfaz", "mod": "Combina listado, búsqueda y likes en una interfaz única, sencilla y profesional.", "q": "¿Podrías explicar el viaje completo de un dato sin mirar el código?"}];</script>
+
+<script>
+let page=Number(localStorage.getItem('fsl_page') ?? -1);
+let done=JSON.parse(localStorage.getItem('fsl_done') || '[]');
+
+const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+function save(){
+  localStorage.setItem('fsl_page',page);
+  localStorage.setItem('fsl_done',JSON.stringify(done));
+  const pct=Math.round(done.length/12*100);
+  document.getElementById('track').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'% completado';
+}
+function renderNav(){
+  let h=`<button class="${page===-1?'on':''}" onclick="go(-1)">00 · Inicio</button>`;
+  LESSONS.forEach((x,i)=>{
+    h+=`<button class="${page===i?'on ':''}${done.includes(i)?'done':''}" onclick="go(${i})">${String(i+1).padStart(2,'0')} · ${x.t}</button>`;
+  });
+  h+=`<button class="${page===12?'on':''}" onclick="go(12)">✓ Repaso final</button>`;
+  document.getElementById('nav').innerHTML=h;
+}
+function home(){
+ return `<section class="hero"><div class="tag">00 · INICIO · CUADERNO 01 DE 10</div><h1>Del endpoint a la pantalla</h1><p>Este es el <b>Cuaderno 01 de una serie de 10 cuadernos de aprendizaje</b>. En este primer paso unimos dos bloques que ya debes empezar a reconocer: <b>Backend con NestJS</b> y <b>Frontend móvil con React Native</b>. No aprenderás piezas aisladas: aprenderás qué responsabilidad tiene cada una y cómo viajan los datos entre ellas.</p><div class="chips"><span class="chip">12 ejercicios</span><span class="chip">NestJS</span><span class="chip">React Native</span><span class="chip">TypeScript</span><span class="chip">Aprendizaje guiado</span></div></section>
+ <section class="card"><div class="tag">REPOSITORIO OFICIAL</div><h2>C01-NEST-RN-CONEXION-API</h2>
+<p>Este será el repositorio GitHub de este cuaderno. El nombre identifica tres cosas: <b>C01</b> indica que es el primer cuaderno, <b>NEST-RN</b> las tecnologías que conectamos y <b>CONEXION-API</b> el aprendizaje principal.</p>
+<div class="conceptbox"><h3>¿Qué vamos a practicar aquí?</h3><p>Construiremos una API sencilla con NestJS usando <b>Controller, endpoints y Service</b>, trabajaremos inicialmente con <b>datos simulados en un array en memoria</b> y conectaremos progresivamente React Native mediante <b>fetch, useState y useEffect</b>.</p></div>
+<div class="future"><b>Este cuaderno pone los cimientos.</b> En los siguientes cuadernos reutilizaremos este recorrido y sustituiremos progresivamente las simulaciones por soluciones más próximas a una aplicación Full Stack real.</div></section>
+<section class="card"><div class="tag">MAPA DE APRENDIZAJE</div><h2>¿Qué estamos estudiando?</h2><div class="bridge"><div><b>BACKEND · NestJS</b><p>Recibe peticiones, decide qué operación ejecutar y obtiene o modifica datos.</p></div><div class="arrow">⇄</div><div><b>FRONTEND · React Native</b><p>Muestra la interfaz, recoge acciones del usuario y solicita datos al backend.</p></div></div><div class="conceptbox"><h3>El recorrido que construiremos</h3><p><b>React Native → HTTP → Controller → Service → datos → JSON → useState → interfaz</b></p><p>No necesitas dominarlo ahora. Cada ejercicio iluminará una parte del recorrido hasta que puedas explicarlo completo.</p></div></section>
+ <section class="card"><div class="tag">ESTRUCTURA ENTREGABLE</div><h2>Así estará organizado tu repositorio GitHub</h2><p>Crearás un repositorio llamado exactamente <b>C01-NEST-RN-CONEXION-API</b>. Dentro, <b>cada EJERCICIO-XX es una isla independiente</b>: contiene todo lo necesario para ejecutarse, comprenderse y corregirse sin depender físicamente de otro ejercicio.</p><div class="repo">C01-NEST-RN-CONEXION-API/
+│
+├── EJERCICIO-01/
+│   ├── backend/        ← proyecto NestJS completo
+│   └── README.md
+│
+├── EJERCICIO-02/
+│   ├── backend/        ← otro proyecto independiente
+│   └── README.md
+│
+├── ...
+│
+├── EJERCICIO-05/
+│   ├── backend/        ← NestJS completo
+│   ├── frontend/       ← Expo / React Native completo
+│   └── README.md
+│
+├── ...
+│
+└── EJERCICIO-12/
+    ├── backend/        ← NestJS completo
+    ├── frontend/       ← Expo / React Native completo
+    └── README.md</div><div class="future"><b>REGLA DE ORO · EJERCICIOS ISLA</b><br>El ejercicio 06 puede recuperar lo aprendido en el 05, pero <b>no reutiliza físicamente su proyecto</b>. Si necesita NestJS, incluye su proyecto NestJS completo. Si necesita React Native, incluye también su proyecto Expo completo. Así cada carpeta puede clonarse, ejecutarse, entregarse y corregirse por separado.</div><div class="note"><b>Importante:</b> backend y frontend forman una única experiencia de aprendizaje. En cada README indicarás qué has aprendido, qué has modificado, la respuesta de comprensión y el resultado.</div><h3>Al terminar cada ejercicio</h3><div class="repo">git add .
+git commit -m "Ejercicio XX - Título"
+git push</div><p><b>Antes de avanzar:</b> comprueba que el commit está visible en GitHub.</p></section>
+ <section class="card"><div class="tag">MODELO DE DATOS</div><h2>¿Por qué empezamos con un array?</h2><div class="compare"><div><b>AHORA · Array en memoria</b><p>El Service trabaja con objetos guardados en un array. Es rápido de entender y nos permite concentrarnos en Controller, Service, endpoints y HTTP.</p><code>private mascotas = [...]</code></div><div><b>MÁS ADELANTE · Base de datos</b><p>Los mismos datos vivirán en PostgreSQL u otra base de datos. El Service dejará de buscar en un array y consultará datos persistentes.</p><code>database → repository → service</code></div></div><div class="future"><b>Idea clave:</b> el array NO pretende sustituir una base de datos real. Es una simulación pedagógica de la capa de datos. Si reinicias NestJS, los cambios del array desaparecen. Más adelante cambiaremos la fuente de datos sin cambiar la idea fundamental del recorrido.</div></section>
+ <section class="card"><div class="tag">VOCABULARIO QUE VAS A DOMINAR</div><h2>Antes de utilizar una palabra, sabrás qué significa</h2><div class="homegrid"><div class="mini"><b>Endpoint</b>Una combinación de ruta + método HTTP que ofrece una operación del backend.</div><div class="mini"><b>Controller</b>Recibe la petición HTTP y la dirige hacia la operación adecuada.</div><div class="mini"><b>Service</b>Contiene la lógica de la aplicación y trabaja con los datos.</div><div class="mini"><b>JSON</b>Formato con el que intercambiaremos datos entre backend y frontend.</div><div class="mini"><b>Path Param</b>Dato variable que forma parte de la ruta: <code>/mascotas/3</code>.</div><div class="mini"><b>Query Param</b>Dato opcional que acompaña a la ruta: <code>/juegos?genero=aventura</code>.</div><div class="mini"><b>useState</b>Hook de React que guarda un valor que afecta a la interfaz.</div><div class="mini"><b>useEffect</b>Hook que utilizaremos para iniciar una carga cuando aparece la pantalla.</div></div></section>
+ <section class="card"><div class="tag">CONEXIÓN CON REACT NATIVE</div><h2>No empezamos de cero</h2><p>Recuperaremos bloques de aprendizaje móvil que ya tienen sentido por separado y ahora les daremos una fuente de datos real: <b>componentes, eventos, estado, renderizado de listas y pequeños hooks</b>.</p><div class="conceptbox"><h3>Cambio de modelo mental</h3><p>Antes podías escribir un dato directamente en React Native. Ahora empezaremos a preguntarnos: <b>¿y si ese dato no está en el móvil y tengo que pedirlo al backend?</b></p></div></section>
+ <section class="card"><div class="tag">SERIE DE APRENDIZAJE · 1 / 10</div><h2>Este cuaderno no está aislado</h2>
+<p>La evaluación se organizará en <b>10 cuadernos</b>. Cada uno tendrá su propio repositorio y un objetivo de aprendizaje concreto. Los conocimientos no se reinician: cada cuaderno recuperará lo necesario de los anteriores.</p>
+<div class="flow"><div style="background:#eaf2ff;border-color:#8ab3ff"><b>C01</b><br>Conexión API</div><div><b>C02</b><br>Siguiente paso</div><div><b>…</b><br>Progresión</div><div><b>C10</b><br>Integración</div></div>
+<p class="note"><b>Ahora estamos aquí:</b> aprender a seguir el recorrido de un dato desde React Native hasta NestJS y de vuelta a la interfaz.</p></section>
+<section class="card"><div class="tag">PROGRESIÓN DEL C01</div><h2>Cómo avanzaremos</h2><p><b>01–04 · Backend:</b> endpoint → Service → Path Params → Query Params.</p><p><b>05–07 · Puente:</b> fetch → useState → useEffect.</p><p><b>08–09 · Lectura:</b> arrays → FlatList → peticiones dinámicas.</p><p><b>10–11 · Escritura:</b> PATCH → POST.</p><p><b>12 · Integración:</b> una pequeña experiencia Full Stack completa.</p></section>`;
+}
+function pv(i,x){
+ if(i<4) return `<div class="terminal">● ● ● &nbsp; NEST API LAB<br><br><span style="color:#67e8f9">${x.route}</span><br><br>REQUEST<br>&nbsp;&nbsp;↓<br>Controller<br>${i>0?'&nbsp;&nbsp;↓<br>Service<br>&nbsp;&nbsp;↓<br>Array<br>':''}&nbsp;&nbsp;↓<br><span class="ok">200 OK</span><br><br>{ "resultado": "✓" }</div>`;
+ return `<div class="phone"><div class="notch"></div><div class="screenTitle">C01 · NEST + RN</div><p style="color:#64748b">${x.route}</p><div class="mobileCard">📡 Datos recibidos desde NestJS<br><br><b>Estado: conectado ✓</b></div><button class="primary">ACCIÓN PRINCIPAL</button></div>`;
+}
+function understandRows(x){
+ const lines=x.code.split('\n').filter(s=>s.trim()).slice(0,4);
+ return lines.map((s,i)=>`<div class="urow"><div class="ucode">${esc(s.trim())}</div><div class="uexp">${[
+ 'Identifica qué responsabilidad tiene esta línea dentro del flujo.',
+ 'Observa qué dato entra o qué resultado produce este bloque.',
+ 'Relaciona esta instrucción con el paso anterior del recorrido.',
+ 'Comprueba qué cambiaría si esta línea no existiera.'
+ ][i]}</div></div>`).join('');
+}
+
+
+function prepareBlock(i,x){
+ const names=['hola','pizzas','mascotas','juegos','mensaje','mensaje','mensaje','productos','heroes','mascotas','productos','criaturas'];
+ const n=names[i];
+ let commands='', structure='', notes='';
+ if(i<4){
+   commands=`# Dentro de EJERCICIO-${String(i+1).padStart(2,'0')}\nnest new backend\ncd backend\n`;
+   if(i===0) commands+=`nest g controller hola`;
+   else commands+=`nest g controller ${n}\nnest g service ${n}`;
+   structure=`EJERCICIO-${String(i+1).padStart(2,'0')}/\n├── backend/\n│   ├── src/\n│   │   ├── ${n}/\n│   │   │   ├── ${n}.controller.ts\n${i===0?'':`│   │   │   ├── ${n}.service.ts\n`}│   │   │   └── ...\n│   │   └── app.module.ts\n│   └── package.json\n└── README.md`;
+   notes=i===0?`<div class="commandnote"><b>nest new backend</b> crea un proyecto NestJS completo. <b>nest g controller hola</b> genera el Controller y lo registra para que podamos empezar con un único concepto.</div>`:
+   `<div class="commandnote"><b>nest g controller ${n}</b> crea la capa que recibirá HTTP. <b>nest g service ${n}</b> crea la clase donde pondremos la lógica y el array temporal.</div>`;
+ } else {
+   commands=`# Dentro de EJERCICIO-${String(i+1).padStart(2,'0')}\nnest new backend\nnpx create-expo-app@latest frontend\n\n# Backend\ncd backend\nnest g controller ${n}\nnest g service ${n}`;
+   structure=`EJERCICIO-${String(i+1).padStart(2,'0')}/\n├── backend/       ← proyecto NestJS completo\n│   ├── src/\n│   └── package.json\n├── frontend/      ← proyecto Expo completo\n│   ├── App.tsx\n│   └── package.json\n└── README.md`;
+   notes=`<div class="commandnote"><b>nest new backend</b> prepara la API. <b>create-expo-app frontend</b> crea una app React Native/Expo independiente. Los dos proyectos viven dentro de esta isla.</div>`;
+ }
+ return `<section class="card prepare"><div class="tag">PREPARA EL EJERCICIO · PASO A PASO</div><h2>${i<4?'Construye primero el backend':'Backend → prueba → Expo → conexión → frontend'}</h2><p>No damos por supuesto que las clases o proyectos ya existen. Ejecuta estos comandos desde la carpeta del ejercicio.</p>${i>=4?`<div class="conceptbox"><h3>ORDEN OBLIGATORIO EN ESTE EJERCICIO FULL STACK</h3>
+<div class="step"><b>1 · BACKEND</b><br>Crea el proyecto NestJS dentro de <code>backend/</code>, genera Controller/Service cuando corresponda y escribe primero su código completo.</div>
+<div class="step"><b>2 · PRUEBA LA API</b><br>Arranca Nest con <code>npm run start:dev</code> y comprueba el endpoint antes de abrir React Native.</div>
+<div class="step"><b>3 · CREA REACT NATIVE CON EXPO</b><br>Desde la raíz de EJERCICIO-${String(i+1).padStart(2,'0')} ejecuta <code>npx create-expo-app@latest frontend</code>.</div>
+<div class="step"><b>4 · CONECTA LOS DOS MUNDOS</b><br>Obtén la IP local del ordenador y configura <code>API_URL = 'http://TU_IP:3000'</code>. El móvil y el ordenador deben poder comunicarse por la red.</div>
+<div class="step"><b>5 · FRONTEND</b><br>Abre <code>frontend/App.tsx</code>, escribe el código completo de la pestaña correspondiente y arranca Expo con <code>npx expo start</code>.</div>
+<div class="step"><b>6 · COMPRUEBA EXTREMO A EXTREMO</b><br>Acción en React Native → petición HTTP → Controller → Service/datos → JSON → interfaz.</div></div>`:''}
+<div class="preparegrid"><div><span class="fieldlabel">COMANDOS</span><div class="terminalcmd">${esc(commands)}</div>${notes}</div><div><span class="fieldlabel">ESTRUCTURA QUE DEBES OBTENER</span><div class="structure">${esc(structure)}</div></div></div><div class="filepurpose"><div><b>1 · CREA</b><br>Genera primero la estructura.</div><div><b>2 · COMPRUEBA</b><br>Localiza los archivos que aparecen en las pestañas del siguiente bloque. Solo entonces copia y estudia su código.</div></div></section>`;
+}
+function conceptBlock(i,x){
+ let body='';
+ if(i===0) body=`<h2>Endpoint: una puerta del backend</h2><p>Un <b>endpoint</b> es una operación accesible mediante HTTP. No es solamente una URL: combina un <b>método</b> (GET, POST, PATCH...) y una <b>ruta</b>.</p><div class="conceptbox"><b>GET + /hola</b> → “quiero obtener la respuesta del endpoint /hola”.</div>`;
+ else if(i===1) body=`<h2>Controller y Service no hacen lo mismo</h2><div class="layerintro"><b>Vamos a programar en dos responsabilidades.</b><div class="layerflow"><span>Petición HTTP</span><i>→</i><span>Controller</span><i>→</i><span>Service</span><i>→</i><span>Array temporal</span></div><p>Por eso el código aparecerá en pestañas. Primero entenderás el archivo que recibe la petición y después el archivo al que delega el trabajo.</p></div><div class="compare"><div><b>Controller</b><p>Se ocupa de la entrada HTTP: ruta, parámetros y petición.</p></div><div><b>Service</b><p>Se ocupa de la lógica y, en este cuaderno, accede al array que simula los datos.</p></div></div><div class="future">Más adelante el Service podrá consultar una base de datos. La separación que aprendes ahora seguirá teniendo sentido.</div>`;
+ else if(i===2) body=`<h2>Path Parameter</h2><p>Un <b>Path Param</b> identifica normalmente un recurso concreto y forma parte de la propia ruta.</p><div class="conceptbox"><code>/mascotas/1</code> · <code>/mascotas/2</code> · <code>/mascotas/3</code><p>El número cambia, pero seguimos utilizando el mismo endpoint conceptual: <code>/mascotas/:id</code>.</p></div>`;
+ else if(i===3) body=`<h2>Path Param ≠ Query Param</h2><div class="compare"><div><b>PATH PARAM</b><p><code>/juegos/3</code></p><p>Señala un recurso concreto. El valor forma parte de la ruta.</p></div><div><b>QUERY PARAM</b><p><code>/juegos?genero=aventura</code></p><p>Añade criterios a una petición: filtros, búsqueda, orden, paginación…</p></div></div>`;
+ else if(i===4) body=`<h2>HTTP conecta los dos mundos</h2><div class="bridge"><div><b>React Native</b><p><code>fetch()</code> prepara y envía la petición.</p></div><div class="arrow">→</div><div><b>NestJS</b><p>Un endpoint recibe la petición y devuelve JSON.</p></div></div><p>Hasta ahora probábamos la API directamente. A partir de aquí será la app móvil quien la consuma.</p>`;
+ else if(i===5) body=`<h2>Concepto nuevo de React: estado y useState</h2>
+<p>Hasta ahora hemos podido ejecutar <code>fetch()</code> y observar la respuesta. En este ejercicio queremos algo nuevo: <b>que la respuesta cambie lo que vemos en pantalla</b>. Para eso necesitamos guardar un dato que puede cambiar.</p>
+<div class="conceptbox"><h3>¿Qué es el estado?</h3><p>El <b>estado</b> es información que pertenece al componente y puede cambiar mientras usamos la app. Cuando cambia mediante su función actualizadora, React vuelve a representar la parte necesaria de la interfaz.</p></div>
+<div class="conceptbox"><h3>¿Qué es un Hook?</h3><p>Un <b>Hook</b> es una función de React que nos permite utilizar capacidades de React dentro de un componente funcional. <code>useState</code> es el primer Hook que utilizamos aquí: nos permite añadir estado.</p></div>
+<h3>Lee esta línea antes de programarla</h3>
+<div class="terminalcmd">const [mensaje, setMensaje] =
+  useState('🔴 Sin conectar');</div>
+<div class="syntaxmap">
+ <div class="syntaxpart"><code>mensaje</code><b>Valor actual</b><p>Es el dato que leeremos y mostraremos en la interfaz.</p></div>
+ <div class="syntaxpart"><code>setMensaje</code><b>Función actualizadora</b><p>La utilizamos cuando queremos cambiar el valor de <code>mensaje</code>.</p></div>
+ <div class="syntaxpart"><code>'🔴 Sin conectar'</code><b>Valor inicial</b><p>Es el valor que tendrá el estado la primera vez que aparece el componente.</p></div>
+</div>
+<h3>¿Qué ocurrirá cuando llegue NestJS?</h3>
+<div class="beforeafter"><div class="statebox"><span class="fieldlabel">ANTES DE LA PETICIÓN</span><b>mensaje</b><p>🔴 Sin conectar</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">DESPUÉS DE setMensaje(...)</span><b>mensaje</b><p>🟢 ¡Conexión conseguida!</p></div></div>
+<div class="future"><b>Modelo mental:</b> NestJS no modifica directamente la pantalla. <code>fetch()</code> obtiene el JSON → nosotros leemos <code>datos.texto</code> → llamamos a <code>setMensaje(...)</code> → React vuelve a representar la interfaz usando el nuevo valor de <code>mensaje</code>.</div>`;
+ else if(i===6) body=`<h2>Concepto nuevo de React: useEffect</h2>
+<p>En el ejercicio anterior la petición comenzaba cuando el usuario pulsaba un botón. Ahora queremos que la app <b>cargue automáticamente</b> al aparecer la pantalla. Para expresar ese momento utilizaremos otro Hook: <code>useEffect</code>.</p>
+<div class="conceptbox"><h3>¿Qué es un efecto?</h3><p>Un <b>efecto</b> es una operación que ocurre como consecuencia de que el componente se haya renderizado y que conecta nuestro componente con algo externo. En este caso, ese “algo externo” es nuestra API NestJS.</p></div>
+<div class="terminalcmd">useEffect(() => {
+  cargarMensaje();
+}, []);</div>
+<div class="syntaxmap">
+ <div class="syntaxpart"><code>useEffect(...)</code><b>Hook</b><p>Le indica a React que queremos ejecutar un efecto.</p></div>
+ <div class="syntaxpart"><code>() =&gt; { cargarMensaje(); }</code><b>Qué debe ocurrir</b><p>Ejecutamos la función que ya sabe hacer el fetch.</p></div>
+ <div class="syntaxpart"><code>[]</code><b>Dependencias</b><p>En este ejercicio, el array vacío hace que la carga inicial se ejecute al montar el componente.</p></div>
+</div>
+<div class="beforeafter"><div class="statebox"><span class="fieldlabel">APARECE LA PANTALLA</span><b>mensaje</b><p>Cargando…</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">EFECTO</span><b>useEffect</b><p>cargarMensaje() → fetch()</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">RESULTADO</span><b>setMensaje</b><p>🟢 Backend disponible</p></div></div>
+<div class="future"><b>Idea clave:</b> <code>useEffect</code> no sustituye a <code>fetch()</code>. Decide <b>cuándo</b> llamar a la función que realiza la petición.</div>`;
+ else if(i===7) body=`<h2>Concepto nuevo de React Native: FlatList</h2>
+<p>NestJS ya puede devolver <b>varios objetos</b>. Ahora necesitamos convertir ese array en una lista visual. React Native dispone de <code>FlatList</code> para representar colecciones de elementos de forma estructurada.</p>
+<div class="bridge"><div><b>Nest Service</b><p>Array de productos</p></div><div class="arrow">→</div><div><b>fetch + useState</b><p>productos</p></div><div class="arrow">→</div><div><b>FlatList</b><p>una fila/tarjeta por producto</p></div></div>
+<div class="terminalcmd">&lt;FlatList
+  data={productos}
+  keyExtractor={(item) =&gt; String(item.id)}
+  renderItem={({ item }) =&gt; (
+    &lt;Text&gt;{item.nombre}&lt;/Text&gt;
+  )}
+/&gt;</div>
+<div class="syntaxmap">
+ <div class="syntaxpart"><code>data={productos}</code><b>Los datos</b><p>Es el array guardado en el estado.</p></div>
+ <div class="syntaxpart"><code>renderItem</code><b>Cómo se ve uno</b><p>Define qué interfaz construimos para cada objeto del array.</p></div>
+ <div class="syntaxpart"><code>keyExtractor</code><b>Identidad</b><p>Proporciona a React una clave estable para distinguir cada elemento.</p></div>
+</div>
+<div class="future"><b>Modelo mental:</b> FlatList no obtiene los datos. <code>fetch()</code> los obtiene, <code>useState</code> los conserva y <code>FlatList</code> los representa.</div>`;
+ else if(i===8) body=`<h2>Recuperamos Path Params: ahora nacen en React Native</h2>
+<p>Ya sabes que NestJS puede recibir un identificador mediante una ruta como <code>/heroes/:id</code>. La novedad es descubrir <b>de dónde sale ese valor cuando tenemos frontend</b>.</p>
+<div class="conceptbox"><h3>Ejemplo</h3><p>El usuario escribe <b>2</b>. React Native construye <code>/heroes/2</code>. NestJS recibe ese <b>2</b> mediante <code>@Param('id')</code>.</p></div>
+<div class="beforeafter"><div class="statebox"><span class="fieldlabel">1 · REACT NATIVE</span><code>id = "2"</code><p>El valor está en el estado.</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">2 · URL</span><code>/heroes/2</code><p>El ID pasa a formar parte del path.</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">3 · NESTJS</span><code>@Param('id')</code><p>El Controller recupera "2".</p></div></div>
+<div class="terminalcmd">fetch(API_URL + '/heroes/' + id)
+
+@Get(':id')
+findOne(@Param('id') id: string) { ... }</div>
+<div class="future"><b>Conexión con lo aprendido:</b> no estamos aprendiendo otro tipo de parámetro. Estamos conectando el Path Param del backend con un dato que nace en la interfaz móvil.</div>`;
+ else if(i===9) body=`<h2>Concepto nuevo HTTP: PATCH</h2>
+<p>Hasta ahora nuestras peticiones eran principalmente <b>GET</b>: pedíamos información sin pretender modificarla. En este ejercicio el usuario pulsa “Me gusta” y queremos cambiar una parte de una mascota existente: sus <code>likes</code>.</p>
+<div class="compare"><div><b>GET</b><p><code>GET /mascotas/1</code></p><p>Consulta información.</p></div><div><b>PATCH</b><p><code>PATCH /mascotas/1/like</code></p><p>Solicita una modificación parcial del recurso.</p></div></div>
+<div class="terminalcmd">fetch(API_URL + '/mascotas/1/like', {
+  method: 'PATCH'
+});</div>
+<div class="syntaxmap">
+ <div class="syntaxpart"><code>fetch(URL, {...})</code><b>Petición</b><p>Además de la URL enviamos opciones.</p></div>
+ <div class="syntaxpart"><code>method: 'PATCH'</code><b>Método HTTP</b><p>Indica al backend que esta petición pretende modificar.</p></div>
+ <div class="syntaxpart"><code>@Patch(':id/like')</code><b>NestJS</b><p>Asocia esa petición PATCH con el método del Controller.</p></div>
+</div>
+<div class="beforeafter"><div class="statebox"><span class="fieldlabel">ARRAY EN EL SERVICE</span><p>Toby · ❤️ 14</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">PATCH</span><p>darLike(1)</p></div><div class="bigarrow">→</div><div class="statebox"><span class="fieldlabel">ARRAY MODIFICADO</span><p>Toby · ❤️ 15</p></div></div>
+<div class="future"><b>Persistencia simulada:</b> estamos modificando el array en memoria. El cambio funciona mientras el servidor está ejecutándose, pero se pierde al reiniciar NestJS. Más adelante una base de datos hará persistente esta modificación.</div>`;
+ else if(i===10) body=`<h2>POST y el cuerpo de la petición</h2><p>Para crear un recurso necesitamos enviar datos. React Native transforma el objeto a JSON; NestJS lo recupera mediante <code>@Body()</code>.</p>`;
+ else if(i===10) body=`<h2>Conceptos nuevos: POST y @Body()</h2><p>Hasta ahora hemos leído o modificado recursos existentes. Ahora queremos <b>crear un producto nuevo</b>. Para ello enviamos datos desde React Native dentro del cuerpo de una petición POST.</p>
+<div class="compare"><div><b>POST</b><p>Expresa la intención de crear un nuevo recurso.</p><code>method: 'POST'</code></div><div><b>@Body()</b><p>NestJS recupera los datos enviados dentro del cuerpo de la petición.</p><code>@Body() producto</code></div></div>
+<div class="terminalcmd">React Native
+{ nombre: 'Teclado', precio: 49 }
+        ↓ JSON.stringify(...)
+POST /productos
+        ↓
+@Body() producto
+        ↓
+ProductosService.crear(producto)</div>
+<div class="future"><b>Idea clave:</b> el frontend no modifica el array directamente. Envía una petición; el backend decide cómo crear y guardar temporalmente el nuevo objeto.</div>`;
+ else body=`<h2>Integración final guiada: reutilizar sin saltos</h2><p>El ejercicio 12 no introduce una arquitectura nueva. Combina <b>GET de colección, GET por Path Param, PATCH, useState, useEffect y FlatList</b> dentro de una única miniapp.</p>
+<div class="conceptbox"><h3>Qué debes reconocer antes de programar</h3><p><b>GET /criaturas</b> carga la colección · <b>GET /criaturas/:id</b> selecciona una criatura · <b>PATCH /criaturas/:id/like</b> modifica sus likes.</p></div>
+<div class="bridge"><div><b>App.tsx</b><p>estado + efectos + lista + acciones</p></div><div class="arrow">→</div><div><b>Controller</b><p>3 endpoints</p></div><div class="arrow">→</div><div><b>Service</b><p>array temporal + lógica</p></div></div>
+<div class="future"><b>Sigue siendo aprendizaje guiado:</b> primero observarás los tres archivos completos y después modificarás la miniapp. No tienes que reconstruir la solución desde cero.</div>`;
+ return `<section class="card ${i>=5&&i<=11?'conceptlesson':''}"><div class="tag">${i===5?'CONCEPTO NUEVO · REACT':i===6?'CONCEPTO NUEVO · REACT':i===7?'CONCEPTO NUEVO · REACT NATIVE':i===8?'RECUPERACIÓN · PATH PARAM':i===9?'CONCEPTO NUEVO · HTTP':'FUNDAMENTOS · QUÉ ESTÁS ESTUDIANDO'}</div>${body}</section>`;
+}
+
+function codeFiles(i,x){
+ if(i===10) return [
+ {name:'productos.controller.ts',path:'backend/src/productos/productos.controller.ts',role:'BACKEND · Expone GET para listar y POST para crear productos.',code:`import {
+  Body,
+  Controller,
+  Get,
+  Post,
+} from '@nestjs/common';
+import { ProductosService } from './productos.service';
+
+@Controller('productos')
+export class ProductosController {
+  constructor(
+    private readonly productosService: ProductosService,
+  ) {}
+
+  @Get()
+  findAll() {
+    return this.productosService.findAll();
+  }
+
+  @Post()
+  crear(
+    @Body() producto: {
+      nombre: string;
+      precio: number;
+    },
+  ) {
+    return this.productosService.crear(producto);
+  }
+}`},
+ {name:'productos.service.ts',path:'backend/src/productos/productos.service.ts',role:'BACKEND · Mantiene el array temporal y añade nuevos productos.',code:`import { Injectable } from '@nestjs/common';
+
+type NuevoProducto = {
+  nombre: string;
+  precio: number;
+};
+
+@Injectable()
+export class ProductosService {
+  private productos = [
+    { id: 1, nombre: 'Mochila', precio: 35 },
+    { id: 2, nombre: 'Auriculares', precio: 49 },
+  ];
+
+  findAll() {
+    return this.productos;
+  }
+
+  crear(producto: NuevoProducto) {
+    const nuevo = {
+      id: this.productos.length + 1,
+      ...producto,
+    };
+
+    this.productos.push(nuevo);
+    return nuevo;
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Recoge nombre/precio, envía POST y vuelve a cargar la lista.',code:`import { useEffect, useState } from 'react';
+import {
+  Button,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+type Producto = {
+  id: number;
+  nombre: string;
+  precio: number;
+};
+
+export default function App() {
+  const [productos, setProductos] =
+    useState<Producto[]>([]);
+  const [nombre, setNombre] = useState('');
+  const [precio, setPrecio] = useState('');
+
+  const cargarProductos = async () => {
+    const r = await fetch(API_URL + '/productos');
+    setProductos(await r.json());
+  };
+
+  const crearProducto = async () => {
+    await fetch(API_URL + '/productos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre,
+        precio: Number(precio),
+      }),
+    });
+
+    setNombre('');
+    setPrecio('');
+    await cargarProductos();
+  };
+
+  useEffect(() => {
+    cargarProductos();
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>🛒 Mini tienda</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Nombre"
+        value={nombre}
+        onChangeText={setNombre}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Precio"
+        value={precio}
+        onChangeText={setPrecio}
+        keyboardType="numeric"
+      />
+
+      <Button
+        title="Añadir producto"
+        onPress={crearProducto}
+      />
+
+      <FlatList
+        data={productos}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text>{item.nombre}</Text>
+            <Text>{item.precio} €</Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 24 },
+  title: {
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 16,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 10,
+  },
+  card: {
+    padding: 14,
+    marginTop: 10,
+    borderRadius: 12,
+    backgroundColor: '#EEF4FF',
+  },
+});`}
+ ];
+ if(i===11) return [
+ {name:'criaturas.controller.ts',path:'backend/src/criaturas/criaturas.controller.ts',role:'BACKEND · Integra listado, búsqueda por ID y acción de like.',code:`import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+} from '@nestjs/common';
+import { CriaturasService } from './criaturas.service';
+
+@Controller('criaturas')
+export class CriaturasController {
+  constructor(
+    private readonly criaturasService: CriaturasService,
+  ) {}
+
+  @Get()
+  findAll() {
+    return this.criaturasService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.criaturasService.findOne(
+      Number(id)
+    );
+  }
+
+  @Patch(':id/like')
+  darLike(@Param('id') id: string) {
+    return this.criaturasService.darLike(
+      Number(id)
+    );
+  }
+}`},
+ {name:'criaturas.service.ts',path:'backend/src/criaturas/criaturas.service.ts',role:'BACKEND · Centraliza la lógica sobre el array temporal de criaturas.',code:`import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class CriaturasService {
+  private criaturas = [
+    {
+      id: 1,
+      nombre: 'Draco',
+      nivel: 18,
+      poder: 82,
+      likes: 27,
+      emoji: '🐲',
+    },
+    {
+      id: 2,
+      nombre: 'Foxy',
+      nivel: 12,
+      poder: 68,
+      likes: 19,
+      emoji: '🦊',
+    },
+    {
+      id: 3,
+      nombre: 'Panda-X',
+      nivel: 15,
+      poder: 73,
+      likes: 22,
+      emoji: '🐼',
+    },
+  ];
+
+  findAll() {
+    return this.criaturas;
+  }
+
+  findOne(id: number) {
+    return this.criaturas.find(
+      criatura => criatura.id === id
+    );
+  }
+
+  darLike(id: number) {
+    const criatura = this.findOne(id);
+
+    if (!criatura) {
+      return undefined;
+    }
+
+    criatura.likes++;
+    return criatura;
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Integra carga inicial, selección de criatura y PATCH de likes.',code:`import { useEffect, useState } from 'react';
+import {
+  Button,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+type Criatura = {
+  id: number;
+  nombre: string;
+  nivel: number;
+  poder: number;
+  likes: number;
+  emoji: string;
+};
+
+export default function App() {
+  const [criaturas, setCriaturas] =
+    useState<Criatura[]>([]);
+  const [seleccionada, setSeleccionada] =
+    useState<Criatura | null>(null);
+
+  const cargarCriaturas = async () => {
+    const r = await fetch(API_URL + '/criaturas');
+    setCriaturas(await r.json());
+  };
+
+  const seleccionar = async (id: number) => {
+    const r = await fetch(
+      API_URL + '/criaturas/' + id
+    );
+    setSeleccionada(await r.json());
+  };
+
+  const darLike = async () => {
+    if (!seleccionada) return;
+
+    const r = await fetch(
+      API_URL +
+        '/criaturas/' +
+        seleccionada.id +
+        '/like',
+      { method: 'PATCH' }
+    );
+
+    const actualizada = await r.json();
+    setSeleccionada(actualizada);
+    await cargarCriaturas();
+  };
+
+  useEffect(() => {
+    cargarCriaturas();
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>
+        🧪 Creature Lab
+      </Text>
+
+      {seleccionada && (
+        <View style={styles.hero}>
+          <Text style={styles.emoji}>
+            {seleccionada.emoji}
+          </Text>
+          <Text style={styles.name}>
+            {seleccionada.nombre}
+          </Text>
+          <Text>
+            Nivel {seleccionada.nivel}
+            {' · '}Poder {seleccionada.poder}
+          </Text>
+          <Text>❤️ {seleccionada.likes}</Text>
+          <Button
+            title="❤️ Me gusta"
+            onPress={darLike}
+          />
+        </View>
+      )}
+
+      <FlatList
+        data={criaturas}
+        keyExtractor={(item) => String(item.id)}
+        horizontal
+        renderItem={({ item }) => (
+          <Pressable
+            style={styles.item}
+            onPress={() => seleccionar(item.id)}
+          >
+            <Text style={styles.itemEmoji}>
+              {item.emoji}
+            </Text>
+            <Text>{item.nombre}</Text>
+          </Pressable>
+        )}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 24 },
+  title: {
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 18,
+  },
+  hero: {
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: '#EEF4FF',
+    marginBottom: 20,
+  },
+  emoji: { fontSize: 48 },
+  name: { fontSize: 24, fontWeight: '700' },
+  item: {
+    width: 110,
+    padding: 12,
+    marginRight: 10,
+    borderRadius: 12,
+    backgroundColor: '#F8FAFC',
+  },
+  itemEmoji: { fontSize: 30 },
+});`}
+ ];
+
+ if(i===5) return [
+ {name:'mensaje.controller.ts',path:'backend/src/mensaje/mensaje.controller.ts',role:'BACKEND · Expone GET /mensaje. En esta isla no necesitamos Service porque todavía no hay lógica de datos.',code:`import { Controller, Get } from '@nestjs/common';
+
+@Controller('mensaje')
+export class MensajeController {
+  @Get()
+  obtenerMensaje() {
+    return {
+      texto: '¡Conexión conseguida!',
+    };
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Usa useState para guardar y representar la respuesta del backend.',code:`import { useState } from 'react';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+export default function App() {
+  const [mensaje, setMensaje] =
+    useState('🔴 Sin conectar');
+
+  const cargarMensaje = async () => {
+    const respuesta = await fetch(
+      API_URL + '/mensaje'
+    );
+    const datos = await respuesta.json();
+    setMensaje('🟢 ' + datos.texto);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>
+        Estado del backend
+      </Text>
+      <Text style={styles.status}>{mensaje}</Text>
+      <Button
+        title="Conectar"
+        onPress={cargarMensaje}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  status: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+});`}
+ ];
+ if(i===6) return [
+ {name:'mensaje.controller.ts',path:'backend/src/mensaje/mensaje.controller.ts',role:'BACKEND · Mantiene el mismo contrato GET /mensaje para centrarnos ahora en useEffect.',code:`import { Controller, Get } from '@nestjs/common';
+
+@Controller('mensaje')
+export class MensajeController {
+  @Get()
+  obtenerMensaje() {
+    return {
+      texto: 'Backend disponible',
+    };
+  }}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Usa useEffect para realizar la carga inicial y conserva un botón para recargar.',code:`import { useEffect, useState } from 'react';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+export default function App() {
+  const [mensaje, setMensaje] =
+    useState('Cargando…');
+
+  const cargarMensaje = async () => {
+    const respuesta = await fetch(
+      API_URL + '/mensaje'
+    );
+    const datos = await respuesta.json();
+    setMensaje('🟢 ' + datos.texto);
+  };
+
+  useEffect(() => {
+    cargarMensaje();
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>
+        Full Stack Status
+      </Text>
+      <Text style={styles.status}>{mensaje}</Text>
+      <Button
+        title="Recargar"
+        onPress={cargarMensaje}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  status: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+});`}
+ ];
+ if(i===7) return [
+ {name:'productos.controller.ts',path:'backend/src/productos/productos.controller.ts',role:'BACKEND · Recibe GET /productos y delega la obtención del menú.',code:`import { Controller, Get } from '@nestjs/common';
+import { ProductosService } from './productos.service';
+
+@Controller('productos')
+export class ProductosController {
+  constructor(
+    private readonly productosService: ProductosService,
+  ) {}
+
+  @Get()
+  findAll() {
+    return this.productosService.findAll();
+  }
+}`},
+ {name:'productos.service.ts',path:'backend/src/productos/productos.service.ts',role:'BACKEND · Simula la futura capa de datos mediante un array de productos.',code:`import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class ProductosService {
+  private productos = [
+    { id: 1, nombre: 'Burger', precio: 9.95, emoji: '🍔' },
+    { id: 2, nombre: 'Pizza', precio: 11.5, emoji: '🍕' },
+    { id: 3, nombre: 'Taco', precio: 7.5, emoji: '🌮' },
+  ];
+
+  findAll() {
+    return this.productos;
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Carga el array, lo guarda en estado y FlatList representa cada objeto.',code:`import { useEffect, useState } from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+type Producto = {
+  id: number;
+  nombre: string;
+  precio: number;
+  emoji: string;
+};
+
+export default function App() {
+  const [productos, setProductos] =
+    useState<Producto[]>([]);
+
+  const cargarProductos = async () => {
+    const respuesta = await fetch(
+      API_URL + '/productos'
+    );
+    setProductos(await respuesta.json());
+  };
+
+  useEffect(() => {
+    cargarProductos();
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>🍴 Food Lab</Text>
+      <FlatList
+        data={productos}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text>
+              {item.emoji} {item.nombre}
+            </Text>
+            <Text>{item.precio} €</Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 24 },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 16,
+  },
+  card: {
+    padding: 16,
+    marginBottom: 10,
+    backgroundColor: '#EEF4FF',
+    borderRadius: 12,
+  },
+});`}
+ ];
+ if(i===8) return [
+ {name:'heroes.controller.ts',path:'backend/src/heroes/heroes.controller.ts',role:'BACKEND · Recibe el Path Param :id y delega la búsqueda.',code:`import {
+  Controller,
+  Get,
+  Param,
+} from '@nestjs/common';
+import { HeroesService } from './heroes.service';
+
+@Controller('heroes')
+export class HeroesController {
+  constructor(
+    private readonly heroesService: HeroesService,
+  ) {}
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.heroesService.findOne(
+      Number(id)
+    );
+  }
+}`},
+ {name:'heroes.service.ts',path:'backend/src/heroes/heroes.service.ts',role:'BACKEND · Busca el héroe solicitado dentro del array temporal.',code:`import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class HeroesService {
+  private heroes = [
+    { id: 1, nombre: 'Nova', poder: 80, universo: 'A' },
+    { id: 2, nombre: 'Titan', poder: 95, universo: 'B' },
+    { id: 3, nombre: 'Volt', poder: 88, universo: 'A' },
+  ];
+
+  findOne(id: number) {
+    return this.heroes.find(
+      heroe => heroe.id === id
+    );
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · El ID escrito por el usuario se incorpora a la URL y termina llegando a @Param.',code:`import { useState } from 'react';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+type Heroe = {
+  id: number;
+  nombre: string;
+  poder: number;
+  universo: string;
+};
+
+export default function App() {
+  const [id, setId] = useState('1');
+  const [heroe, setHeroe] =
+    useState<Heroe | null>(null);
+
+  const buscarHeroe = async () => {
+    const respuesta = await fetch(
+      API_URL + '/heroes/' + id
+    );
+    setHeroe(await respuesta.json());
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>
+        🦸 Busca superhéroe
+      </Text>
+      <TextInput
+        style={styles.input}
+        value={id}
+        onChangeText={setId}
+        keyboardType="numeric"
+      />
+      <Button title="Buscar" onPress={buscarHeroe} />
+      {heroe && (
+        <Text style={styles.result}>
+          {heroe.nombre} · Poder {heroe.poder}
+          {'\\n'}Universo {heroe.universo}
+        </Text>
+      )}
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 24 },
+  title: { fontSize: 24, fontWeight: '700' },
+  input: {
+    borderWidth: 1,
+    padding: 12,
+    marginVertical: 16,
+    borderRadius: 10,
+  },
+  result: { marginTop: 20, fontSize: 18 },
+});`}
+ ];
+ if(i===9) return [
+ {name:'mascotas.controller.ts',path:'backend/src/mascotas/mascotas.controller.ts',role:'BACKEND · Recibe PATCH /mascotas/:id/like y delega la modificación.',code:`import {
+  Controller,
+  Param,
+  Patch,
+} from '@nestjs/common';
+import { MascotasService } from './mascotas.service';
+
+@Controller('mascotas')
+export class MascotasController {
+  constructor(
+    private readonly mascotasService: MascotasService,
+  ) {}
+
+  @Patch(':id/like')
+  darLike(@Param('id') id: string) {
+    return this.mascotasService.darLike(
+      Number(id)
+    );
+  }
+}`},
+ {name:'mascotas.service.ts',path:'backend/src/mascotas/mascotas.service.ts',role:'BACKEND · Modifica los likes en el array. El cambio desaparece al reiniciar NestJS.',code:`import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class MascotasService {
+  private mascotas = [
+    { id: 1, nombre: 'Toby', likes: 14 },
+  ];
+
+  darLike(id: number) {
+    const mascota = this.mascotas.find(
+      item => item.id === id
+    );
+
+    if (!mascota) {
+      return undefined;
+    }
+
+    mascota.likes++;
+    return mascota;
+  }
+}`},
+ {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Envía PATCH, recibe el objeto actualizado y refresca el estado visual.',code:`import { useState } from 'react';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+export default function App() {
+  const [likes, setLikes] = useState(14);
+
+  const darLike = async () => {
+    const respuesta = await fetch(
+      API_URL + '/mascotas/1/like',
+      { method: 'PATCH' }
+    );
+
+    const mascota = await respuesta.json();
+    setLikes(mascota.likes);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>🐶 Toby</Text>
+      <Text style={styles.likes}>
+        ❤️ {likes} likes
+      </Text>
+      <Button
+        title="❤️ Me gusta"
+        onPress={darLike}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+  },
+  title: { fontSize: 28, fontWeight: '700' },
+  likes: { fontSize: 20, marginVertical: 18 },
+});`}
+ ];
+
+ if(i===4) return [
+  {name:'mensaje.controller.ts',path:'backend/src/mensaje/mensaje.controller.ts',role:'BACKEND · Define GET /mensaje y devuelve el JSON que consumirá la app.',code:`import { Controller, Get } from '@nestjs/common';
+
+@Controller('mensaje')
+export class MensajeController {
+  @Get()
+  obtenerMensaje() {
+    return {
+      texto: '¡Conexión conseguida! 🚀',
+    };
+  }
+}`},
+  {name:'App.tsx',path:'frontend/App.tsx',role:'FRONTEND · Muestra un botón y realiza fetch() contra GET /mensaje.',code:`import { Button, SafeAreaView, Text } from 'react-native';
+
+const API_URL = 'http://TU_IP:3000';
+
+export default function App() {
+  const cargarMensaje = async () => {
+    const respuesta = await fetch(
+      API_URL + '/mensaje'
+    );
+
+    const datos = await respuesta.json();
+    console.log(datos);
+  };
+
+  return (
+    <SafeAreaView>
+      <Text>Mi primera conexión</Text>
+
+      <Button
+        title="Conectar con Nest"
+        onPress={cargarMensaje}
+      />
+    </SafeAreaView>
+  );
+}`},
+ ];
+  if(i===0 || i===4 || i===5 || i===6 || i===7 || i===8) return [{name:i===0?'hola.controller.ts':'App.tsx',code:x.code,role:i===0?'Controller':'React Native'}];
+  if(i===11) return [{name:'flujo-full-stack.txt',code:x.code,role:'Mapa conceptual'}];
+  const parts=x.code.split(/\n\n(?=@Get|@Patch|@Post)/);
+  if(i>=1 && i<=3){
+    let service=parts[0]||x.code, controller=parts.slice(1).join('\n\n')||`import { Controller, Get, Param } from '@nestjs/common';
+import { MascotasService } from './mascotas.service';
+
+@Controller('mascotas')
+export class MascotasController {
+  constructor(
+    private readonly mascotasService: MascotasService,
+  ) {}
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.mascotasService.findOne(Number(id));
+  }
+}`;
+    return [{name:(i===1?'pizzas':i===2?'mascotas':'juegos')+'.controller.ts',code:controller,role:'Recibe HTTP y delega'},
+            {name:(i===1?'pizzas':i===2?'mascotas':'juegos')+'.service.ts',code:service,role:'Trabaja con los datos'}];
+  }
+  if(i===9 || i===10){
+    const split=x.code.split(/\n\n(?=@Patch|@Post)/);
+    return [{name:'App.tsx',code:split[0],role:'Inicia la petición desde el móvil'},
+            {name:i===9?'mascotas.controller.ts':'productos.controller.ts',code:split[1]||'',role:'Recibe la petición en NestJS'}];
+  }
+  return [{name:'App.tsx',code:x.code,role:'Código del ejercicio'}];
+}
+function codeViewer(i,x){
+ const files=codeFiles(i,x);
+ const intro=files.length>1?`<div class="readingorder"><b>Cómo leer este ejemplo:</b> empieza por <b>${files[0].name}</b> para entender ${files[0].role.toLowerCase()}. Después abre <b>${files[1].name}</b> para ver cómo continúa el recorrido. Las pestañas separan responsabilidades; no son dos ejercicios distintos.</div>`:'';
+ const tabs=files.length>1?`<div class="filetabs">${files.map((f,j)=>`<button class="filetab ${j===0?'active':''}" onclick="switchFile(this,'pane-${i}-${j}')">${f.name}</button>`).join('')}</div>`:'';
+ const panes=files.map((f,j)=>`<div id="pane-${i}-${j}" class="codepane ${j===0?'active':''}"><span class="filepath">${f.path||f.name}</span><div class="responsibility">${f.role}</div><div class="code">${esc(f.code)}</div></div>`).join('');
+ return intro+tabs+panes;
+}
+function switchFile(btn,id){
+ const card=btn.closest('.codecard');
+ card.querySelectorAll('.filetab').forEach(b=>b.classList.remove('active'));
+ card.querySelectorAll('.codepane').forEach(p=>p.classList.remove('active'));
+ btn.classList.add('active');document.getElementById(id).classList.add('active');
+}
+
+function fullStackPhases(i,x){
+ const num=String(i+1).padStart(2,'0');
+ const names=['','','','','','mensaje','mensaje','productos','heroes','mascotas','productos','criaturas'];
+ const n=names[i];
+ const hasService=i>=7;
+ const test=i===5||i===6?'GET http://localhost:3000/mensaje':
+            i===7?'GET http://localhost:3000/productos':
+            i===8?'GET http://localhost:3000/heroes/1':
+            i===9?'PATCH http://localhost:3000/mascotas/1/like':
+            i===10?'GET http://localhost:3000/productos  +  POST http://localhost:3000/productos':
+            'GET http://localhost:3000/criaturas  +  GET /criaturas/1  +  PATCH /criaturas/1/like';
+ return `<section class="card phase backend"><div class="tag">CONSTRUYE BACKEND</div><h2>1. Termina primero la API de esta isla</h2>
+ <div class="terminalcmd"># Dentro de EJERCICIO-${num}
+nest new backend
+cd backend
+nest g controller ${n}
+${hasService?`nest g service ${n}`:'# Este ejercicio no necesita Service nuevo'}
+npm run start:dev</div>
+ <p>${hasService?'Editarás primero las pestañas del Controller y del Service.':'Aquí el Controller devuelve un dato sencillo directamente. No añadimos Service porque no aporta un aprendizaje nuevo en este ejercicio.'}</p></section>
+ <section class="card phase backend"><div class="tag">PRUEBA BACKEND</div><h2>2. Verifica el endpoint antes de crear la pantalla</h2><div class="terminalcmd">${test}</div><p>No continúes mientras esta petición no responda correctamente.</p></section>
+ <section class="card phase front"><div class="tag">CREA REACT NATIVE · EXPO</div><h2>3. Crea ahora el segundo proyecto de la isla</h2><div class="terminalcmd"># Nueva terminal, desde EJERCICIO-${num}
+npx create-expo-app@latest frontend
+cd frontend
+npx expo start</div><p>El archivo principal que estudiarás está en <code>frontend/App.tsx</code>.</p></section>
+ <section class="card phase connect"><div class="tag">UNE FRONTEND + BACKEND</div><h2>4. Configura la dirección de la API</h2><p>En <code>frontend/App.tsx</code> define:</p><div class="terminalcmd">const API_URL = 'http://TU_IP:3000';</div><p>Primero comprueba el backend por separado. Después ejecuta Expo y comprueba el recorrido completo desde la acción o carga de React Native hasta NestJS y de vuelta a la interfaz.</p></section>`;
+}
+function lesson(i){
+ const x=LESSONS[i];
+ return `<section class="card"><div class="tag">EJERCICIO ${String(i+1).padStart(2,'0')} · ${x.level}</div><h1>${x.t}</h1><p>${x.goal}</p><div class="chips"><span class="chip">${x.concept}</span><span class="chip">${x.route}</span></div><div class="flow"><div>📱 React Native</div><div>🎮 Controller</div><div>⚙️ Service</div><div>📦 Array</div></div></section>
+ ${conceptBlock(i,x)}<section class="card"><div class="tag">1 · LEE</div><h2>Antes de programar</h2><div class="readgrid"><div class="mini"><span class="fieldlabel">OBJETIVO</span><div>${x.goal}</div></div><div class="mini"><span class="fieldlabel">CONTEXTO</span><div>Construiremos una pieza pequeña y comprobable del recorrido Full Stack.</div></div><div class="mini"><span class="fieldlabel">YA UTILIZAS</span><div>Los conceptos trabajados en ejercicios anteriores, pero dentro de un proyecto independiente.</div></div><div class="mini"><span class="fieldlabel">CONCEPTO NUEVO</span><div><b>${x.concept}</b></div></div></div></section>
+ ${prepareBlock(i,x)}
+ ${i>=5&&i<=9?fullStackPhases(i,x):''}
+ ${i===4?`<section class="card phase backend"><div class="tag">CONSTRUYE BACKEND</div><h2>1. Prepara primero aquello que React Native va a llamar</h2><p>En este primer ejercicio de conexión <b>no necesitamos Service todavía</b>: el objetivo es aislar y comprender la comunicación HTTP. El Controller puede devolver directamente un mensaje sencillo.</p><div class="terminalcmd">cd backend
+nest g controller mensaje
+npm run start:dev</div><p><b>Archivo que vas a editar:</b> <code>backend/src/mensaje/mensaje.controller.ts</code>.</p></section>
+ <section class="card phase backend"><div class="tag">PRUEBA BACKEND</div><h2>2. No continúes hasta comprobar la API</h2><p>Con NestJS arrancado, abre en el navegador o cliente HTTP:</p><div class="terminalcmd">GET http://localhost:3000/mensaje
+
+Respuesta esperada:
+{
+  "texto": "¡Conexión conseguida! 🚀"
+}</div><p>Si esto no funciona, todavía no pases a React Native.</p></section>
+ <section class="card phase front"><div class="tag">CREA EXPO</div><h2>3. Ahora crea el frontend de esta isla</h2><div class="terminalcmd"># Desde EJERCICIO-05
+npx create-expo-app@latest frontend
+cd frontend
+npx expo start</div><p>El archivo que modificaremos será <code>frontend/App.tsx</code>.</p></section>
+ <section class="card phase connect"><div class="tag">CONECTA FRONT + BACK</div><h2>4. El móvil debe saber dónde está NestJS</h2><p><code>localhost</code> dentro del móvil no representa necesariamente tu ordenador. Para una prueba en dispositivo físico utiliza la IP local del equipo que ejecuta NestJS.</p><div class="conceptbox"><b>En App.tsx:</b><br><code>const API_URL = 'http://TU_IP:3000';</code><br><br>Ejemplo conceptual: <code>http://192.168.x.x:3000</code></div><p>Ahora sí tiene sentido escribir <code>fetch(API_URL + '/mensaje')</code>: el endpoint existe, lo has probado y conoces su dirección.</p></section>`:''}
+ <section class="card codecard"><button class="copy" onclick="copyCode(${i},this)">Copiar</button><div class="tag">2 · OBSERVA EL CÓDIGO COMPLETO</div><h2>Observa los archivos completos y su ubicación</h2><p><b>Cada pestaña debe contener un archivo completo:</b> imports, decoradores, constructor, métodos y lógica necesaria. No hay fragmentos ocultos ni código que debas inventar. Usa las pestañas para recorrer las clases. Lee primero la responsabilidad de cada archivo y después observa el código completo antes de modificar nada.</p>${codeViewer(i,x)}</section>
+ <section class="card understand"><div style="padding:24px 24px 10px"><div class="tag">3 · ENTIENDE</div><h2>Código → explicación</h2></div>${understandRows(x)}</section>
+ <section class="card modify"><div class="tag">4 · MODIFÍCALO</div><h2>Ahora hazlo tuyo</h2><div class="modgrid"><div><h3>AVANZA POR PASOS</h3><div class="step">Ejecuta primero el ejemplo sin modificarlo.</div><div class="step">${x.mod}</div><div class="step">Conserva la funcionalidad principal del ejemplo.</div><div class="step">Vuelve a probar el resultado antes de continuar.</div><p><b>Condición:</b> trabaja en tu proyecto; esta web no sustituye tu código.</p></div><div class="preview">${pv(i,x)}<p style="text-align:center;color:#64748b;font-size:12px">Resultado aproximado</p></div></div></section>
+ <section class="card checks"><div class="tag">CHECKPOINTS</div><h2>Comprueba tu avance</h2><label><input type="checkbox" onchange="checkSave(${i},0,this.checked)"> El ejemplo inicial funciona.</label><label><input type="checkbox" onchange="checkSave(${i},1,this.checked)"> La modificación solicitada está implementada.</label><label><input type="checkbox" onchange="checkSave(${i},2,this.checked)"> Puedo identificar qué dato entra y qué dato sale.</label></section>
+ <section class="card quiz"><div class="tag">COMPRUEBA</div><h2>${x.q}</h2><div class="answers"><button onclick="answer(this,false)">Porque NestJS lo exige siempre.</button><button onclick="answer(this,true)">Porque cumple una responsabilidad concreta dentro del flujo que acabamos de construir.</button><button onclick="answer(this,false)">Porque React Native sustituye al Service.</button><button onclick="answer(this,false)">Porque todos los endpoints funcionan igual.</button></div><div class="feedback"></div></section>
+ <section class="card github"><div class="tag">README / ENTREGA EN GITHUB</div><h2>EJERCICIO-${String(i+1).padStart(2,'0')}</h2><div class="deliverygrid"><div class="deliveryitem"><small>ISLA ENTREGABLE</small><b>EJERCICIO-${String(i+1).padStart(2,'0')}</b></div><div class="deliveryitem"><small>PROYECTO COMPLETO</small><b>${i<4?'backend/ · NestJS':'backend/ + frontend/'}</b></div><div class="deliveryitem"><small>DOCUMENTACIÓN</small><b>README.md</b></div></div><div class="note"><b>Independiente:</b> esta carpeta contiene todo lo necesario para ejecutar y corregir el ejercicio. No necesita archivos de EJERCICIO-${String(Math.max(1,i)).padStart(2,'0')}.</div><p>README: Qué he aprendido · Respuesta a la pregunta de comprensión · Qué he modificado · Resultado.</p><div class="cmd">git add .
+git commit -m "Ejercicio ${String(i+1).padStart(2,'0')} - ${x.t}"
+git push</div><p><b>Antes de pasar al siguiente ejercicio, comprueba que está subido a GitHub.</b></p></section>
+ <section class="card close"><div class="tag">CIERRE</div><h2>HE APRENDIDO</h2><p>✓ ${x.concept}<br>✓ Cómo encaja en el recorrido Full Stack<br>✓ Cómo modificar un ejemplo funcional sin empezar desde cero</p><b>¿Podrías explicar este ejercicio sin mirar el código?</b></section>`;
+}
+function review(){
+ return `<section class="hero"><div class="tag">REPASO FINAL</div><h1>Comprueba tu modelo mental Full Stack</h1><p>20 preguntas autocorregibles combinarán conceptos, lectura de código, errores habituales y razonamiento. Esta preview muestra el formato.</p></section><section class="card quiz"><h2>¿Qué recorrido describe mejor una lectura de datos?</h2><div class="answers"><button onclick="answer(this,true)">React Native → HTTP → Controller → Service → datos → JSON → React Native</button><button onclick="answer(this,false)">Service → CSS → Controller → React Native</button><button onclick="answer(this,false)">Array → Expo → HTML → Controller</button><button onclick="answer(this,false)">React Native → PostgreSQL directamente</button></div><div class="feedback"></div></section>`;
+}
+function render(){
+ renderNav();save();
+ document.getElementById('topTitle').textContent=page<0?'C01 · Del endpoint a la pantalla':page===12?'Repaso final':LESSONS[page].t;
+ document.getElementById('main').innerHTML=page<0?home():page===12?review():lesson(page);
+ if(page>=0&&page<12){const cs=JSON.parse(localStorage.getItem('fsl_checks_'+page)||'[false,false,false]');document.querySelectorAll('.checks input').forEach((e,j)=>e.checked=!!cs[j]);}
+ window.scrollTo(0,0);
+}
+function go(n){page=n;document.getElementById('side').classList.remove('open');render()}
+function next(){if(page<12)page++;render()}function prev(){if(page>-1)page--;render()}
+function complete(){if(page>=0&&page<12&&!done.includes(page))done.push(page);save();renderNav();if(page<11){page++;render()}else if(page===11){page=12;render()}}
+function resetAll(){if(confirm('¿Reiniciar todo el progreso del cuaderno?')){Object.keys(localStorage).filter(k=>k.startsWith('fsl_')).forEach(k=>localStorage.removeItem(k));done=[];page=-1;render()}}
+function checkSave(i,j,v){let a=JSON.parse(localStorage.getItem('fsl_checks_'+i)||'[false,false,false]');a[j]=v;localStorage.setItem('fsl_checks_'+i,JSON.stringify(a))}
+function copyCode(i,b){const pane=b.closest('.codecard').querySelector('.codepane.active .code');navigator.clipboard.writeText(pane?pane.innerText:LESSONS[i].code);b.textContent='Copiado ✓';setTimeout(()=>b.textContent='Copiar',1200)}
+function answer(b,ok){const box=b.closest('.quiz'),f=box.querySelector('.feedback');f.textContent=ok?'✓ Correcto. Relaciona siempre el concepto con su responsabilidad dentro del flujo.':'✕ Revisa el concepto y vuelve al bloque ENTIENDE.';f.style.color=ok?'#047857':'#b91c1c'}
+render();
+</script></body></html>
