@@ -1,1 +1,22 @@
-@Controller('criaturas') export class CriaturasController{constructor(private s:CriaturasService){} @Get() all(){return this.s.findAll();}@Get(':id') one(@Param('id') id:string){return this.s.findOne(Number(id));}@Patch(':id/like') like(@Param('id') id:string){return this.s.like(Number(id));}}
+import { Controller, Get, Param, Patch } from '@nestjs/common';
+import { CriaturasService } from './criaturas.service';
+
+@Controller('criaturas')
+export class CriaturasController {
+  constructor(private readonly service: CriaturasService) {}
+
+  @Get()
+  findAll() {
+    return this.service.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.service.findOne(Number(id));
+  }
+
+  @Patch(':id/like')
+  darLike(@Param('id') id: string) {
+    return this.service.like(Number(id));
+  }
+}
