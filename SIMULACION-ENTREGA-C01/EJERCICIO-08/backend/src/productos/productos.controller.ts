@@ -1,0 +1,1 @@
+@Controller('productos') export class ProductosController{constructor(private s:ProductosService){} @Get() all(){return this.s.findAll();}}
