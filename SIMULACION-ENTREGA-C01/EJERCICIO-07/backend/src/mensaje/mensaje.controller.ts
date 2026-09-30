@@ -1,0 +1,1 @@
+@Controller('mensaje') export class MensajeController{@Get() get(){return {texto:'Carga automática OK'};}}
