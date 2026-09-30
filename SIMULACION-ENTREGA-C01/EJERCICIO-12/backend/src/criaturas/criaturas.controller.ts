@@ -1,0 +1,1 @@
+@Controller('criaturas') export class CriaturasController{constructor(private s:CriaturasService){} @Get() all(){return this.s.findAll();}@Get(':id') one(@Param('id') id:string){return this.s.findOne(Number(id));}@Patch(':id/like') like(@Param('id') id:string){return this.s.like(Number(id));}}
