@@ -1,0 +1,1 @@
+@Injectable() export class MascotasService{private mascotas=[{id:1,nombre:'Nala',likes:0}];darLike(id:number){const m=this.mascotas.find(x=>x.id===id);if(m)m.likes++;return m;}}
