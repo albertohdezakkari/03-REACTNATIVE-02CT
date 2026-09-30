@@ -1,0 +1,1 @@
+@Injectable() export class HeroesService{private heroes=[{id:1,nombre:'Spider-Man',poder:'Sentido arácnido',universo:'Marvel'}];findOne(id:number){return this.heroes.find(h=>h.id===id);}}
