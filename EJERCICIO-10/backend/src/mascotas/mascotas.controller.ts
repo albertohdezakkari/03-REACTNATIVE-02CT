@@ -1,0 +1,1 @@
+@Controller('mascotas') export class MascotasController{constructor(private s:MascotasService){} @Patch(':id/like') like(@Param('id') id:string){return this.s.darLike(Number(id));}}

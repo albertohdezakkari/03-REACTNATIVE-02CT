@@ -1,0 +1,1 @@
+@Controller('heroes') export class HeroesController{constructor(private s:HeroesService){} @Get(':id') one(@Param('id') id:string){return this.s.findOne(Number(id));}}
