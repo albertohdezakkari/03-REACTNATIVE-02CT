@@ -1,0 +1,1 @@
+@Injectable() export class ProductosService{private productos=[{id:1,nombre:'Teclado',precio:30}];findAll(){return this.productos;}crear(p:any){const nuevo={id:this.productos.length+1,...p};this.productos.push(nuevo);return nuevo;}}
