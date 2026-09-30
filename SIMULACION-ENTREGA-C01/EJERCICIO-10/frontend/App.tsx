@@ -1,0 +1,3 @@
+import { useState } from 'react';import { Button,Text,View } from 'react-native';const API_URL='http://192.168.1.50:3000';
+export default function App(){const [mascota,setMascota]=useState<any>({id:1,nombre:'Nala',likes:0});async function like(){const r=await fetch(API_URL+'/mascotas/1/like',{method:'PATCH'});setMascota(await r.json());}
+return <View><Text>{mascota.nombre} · ❤️ {mascota.likes}</Text><Button title="❤️ ME GUSTA" onPress={like}/></View>;}
