@@ -1,0 +1,5 @@
+import { useEffect,useState } from 'react';import { Button,FlatList,Text,TextInput,View } from 'react-native';const API_URL='http://192.168.1.50:3000';
+export default function App(){const [lista,setLista]=useState<any[]>([]);const [id,setId]=useState('1');const [detalle,setDetalle]=useState<any>(null);
+async function cargar(){const r=await fetch(API_URL+'/criaturas');setLista(await r.json());}async function buscar(){const r=await fetch(API_URL+'/criaturas/'+id);setDetalle(await r.json());}
+async function like(id:number){await fetch(API_URL+'/criaturas/'+id+'/like',{method:'PATCH'});await cargar();}useEffect(()=>{cargar();},[]);
+return <View><TextInput value={id} onChangeText={setId}/><Button title="BUSCAR" onPress={buscar}/>{detalle&&<Text>{detalle.nombre}</Text>}<FlatList data={lista} keyExtractor={x=>String(x.id)} renderItem={({item})=><View><Text>{item.nombre} · ❤️ {item.likes}</Text><Button title="LIKE" onPress={()=>like(item.id)}/></View>}/></View>;}
