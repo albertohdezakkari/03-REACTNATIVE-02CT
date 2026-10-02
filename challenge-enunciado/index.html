@@ -16,9 +16,11 @@
 
   <section class="card intro">
     <div>
-      <span class="step">ANTES DE EMPEZAR</span>
-      <h2>Un mismo proyecto. Tres niveles.</h2>
-      <p>No son tres ejercicios independientes. Empieza por el Challenge 1 y amplía la misma aplicación. Si completas el Challenge 2, también has completado el 1. Si completas el 3, has completado los tres.</p>
+      <span class="step">ORIENTACIÓN · ANTES DE EMPEZAR</span>
+      <h2>Una aplicación que crece contigo</h2>
+      <p>Esta prueba evalúa si sabes <b>conectar y hacer avanzar un pequeño sistema Full Stack</b>. Partirás de una comunicación sencilla entre NestJS y React Native y, si avanzas, incorporarás parámetros de ruta, separación Controller–Service y lógica de negocio.</p>
+      <p><b>No son tres ejercicios independientes.</b> Cada nivel amplía el anterior. Para alcanzar 7 puntos debe funcionar también el nivel de 5; para alcanzar 10 deben funcionar los tres.</p>
+      <div class="exam-note"><b>Condiciones de trabajo</b><span>Prueba sin Internet · Proyecto proporcionado y ya configurado · Trabaja únicamente sobre ese proyecto · No basta con escribir código: debes poder demostrar que funciona.</span></div>
     </div>
     <div class="ladder">
       <b>CHALLENGE 1 <span>hasta 5</span></b>
@@ -32,23 +34,24 @@
       <div><span class="number">01</span><span class="tag">CONEXIÓN BÁSICA</span></div>
       <strong>HASTA 5 / 10</strong>
     </div>
-    <h2>Haz que React Native reciba un dato real de NestJS</h2>
-    <p class="lead">Construye la primera conexión completa entre los dos mundos.</p>
+    <h2>Primera meta: demostrar la comunicación Backend → Frontend</h2>
+    <p class="lead"><b>Qué estás demostrando:</b> que React Native puede pedir información a NestJS, recibirla, guardarla y representarla en pantalla.</p>
+    <div class="learning"><b>Antes de programar, piensa en el recorrido:</b><span>¿Quién crea el dato? NestJS. ¿Quién lo solicita? React Native. ¿Qué viaja entre ambos? Una respuesta HTTP con datos JSON.</span></div>
     <div class="cols">
       <article>
         <h3>BACKEND · NestJS</h3>
         <p>Crea un endpoint <code>GET</code> en un Controller que devuelva tu <b>nombre</b> mediante una respuesta JSON.</p>
-        <p>El nombre debe proceder del backend.</p>
+        <p>La respuesta debe contener <b>tu propio nombre</b>. Ese dato será la evidencia sencilla que utilizaremos para comprobar que la comunicación es real.</p>
       </article>
       <article>
         <h3>FRONTEND · React Native</h3>
-        <p>Cuando se abra la aplicación, realiza automáticamente la petición al backend, guarda la información recibida y muestra tu nombre en pantalla.</p>
+        <ol><li>Al abrir la aplicación, realiza automáticamente la petición al endpoint.</li><li>Convierte la respuesta recibida en datos utilizables.</li><li>Guarda el dato recibido en el estado de React.</li><li>Muestra tu nombre en la interfaz.</li></ol>
       </article>
     </div>
     <div class="flow">NestJS → GET → HTTP → React Native → estado → interfaz</div>
     <div class="check">
-      <b>LO HAS CONSEGUIDO SI…</b>
-      <p>Tu nombre aparece en React Native y puedes demostrar que procede de la respuesta del backend, no de un texto escrito directamente en la pantalla.</p>
+      <b>CHECKPOINT · PUEDES AVANZAR SI…</b>
+      <p>Al abrir la app aparece tu nombre y puedes explicar este recorrido: <b>NestJS → petición HTTP → JSON → estado → pantalla</b>. Si cambias el nombre en el backend, el cambio debe llegar al frontend. No es válido escribir el nombre directamente en React Native.</p>
     </div>
   </section>
 
@@ -57,12 +60,13 @@
       <div><span class="number">02</span><span class="tag">PATH PARAM + SERVICE</span></div>
       <strong>HASTA 7 / 10</strong>
     </div>
-    <h2>Busca alumnos mediante su identificador</h2>
-    <p class="lead">Amplía el proyecto anterior. Ahora el frontend decidirá qué alumno quiere consultar.</p>
+    <h2>Segunda meta: utilizar un ID para recuperar un recurso concreto</h2>
+    <p class="lead"><b>Qué estás demostrando:</b> que comprendes un <i>Path Param</i> y sabes separar la entrada HTTP de la búsqueda de datos mediante Controller y Service.</p>
+    <div class="learning"><b>Nuevo reto mental:</b><span>React Native ya no pide siempre el mismo dato. El usuario elige un ID y ese valor debe viajar por la URL hasta NestJS.</span></div>
     <div class="cols">
       <article>
         <h3>BACKEND · NestJS</h3>
-        <p>Trabaja con varios alumnos y permite consultar uno concreto mediante:</p>
+        <p>Utiliza exactamente esta pequeña colección de prueba:</p><div class="dataset"><span><b>1</b> → Ana · DAM</span><span><b>2</b> → Marcos · DAW</span><span><b>3</b> → Lucía · DAM</span></div><p>Permite consultar un alumno concreto mediante:</p>
         <pre>GET /alumnos/1
 GET /alumnos/2
 GET /alumnos/3</pre>
@@ -77,8 +81,8 @@ GET /alumnos/3</pre>
     </div>
     <div class="flow">ID → GET /alumnos/:id → @Param → Controller → Service → JSON → React Native</div>
     <div class="check">
-      <b>LO HAS CONSEGUIDO SI…</b>
-      <p>Puedes cambiar el ID desde React Native y obtener alumnos distintos, demostrando el recorrido completo por Controller y Service.</p>
+      <b>CHECKPOINT · PUEDES AVANZAR SI…</b>
+      <p>Escribes <b>1, 2 o 3</b> en React Native y obtienes el alumno correspondiente. Debes poder explicar: <b>ID → URL → @Param → Controller → Service → alumno → JSON → interfaz</b>.</p>
     </div>
   </section>
 
@@ -87,8 +91,9 @@ GET /alumnos/3</pre>
       <div><span class="number">03</span><span class="tag">LÓGICA EN SERVICE</span></div>
       <strong>HASTA 10 / 10</strong>
     </div>
-    <h2>Haz que el backend interprete los datos</h2>
-    <p class="lead">Completa la misma aplicación incorporando lógica en el Service.</p>
+    <h2>Tercera meta: hacer que el Service transforme información</h2>
+    <p class="lead"><b>Qué estás demostrando:</b> que el backend no solo devuelve datos; también puede aplicar una regla y devolver información nueva derivada de ellos.</p>
+    <div class="learning"><b>Decisión arquitectónica:</b><span>El Controller recibe la petición y delega. La interpretación del curso pertenece al Service.</span></div>
     <div class="cols">
       <article>
         <h3>BACKEND · NestJS</h3>
@@ -106,14 +111,14 @@ GET /alumnos/3</pre>
     </div>
     <div class="flow">GET /alumnos/:id/nivel → Controller → Service → lógica → JSON → React Native</div>
     <div class="check">
-      <b>LO HAS CONSEGUIDO SI…</b>
-      <p>La aplicación consulta un alumno, el Service aplica la lógica y React Native muestra correctamente el resultado recibido.</p>
+      <b>CHECKPOINT · NIVEL 10 CONSEGUIDO SI…</b>
+      <p>Con un ID válido recuperas al alumno, el <b>Service</b> genera correctamente su especialidad y React Native muestra los datos recibidos. Debes poder señalar dónde está la lógica y explicar por qué no la has colocado en el Controller.</p>
     </div>
   </section>
 
   <section class="card rules">
-    <span class="step">REGLAS DE LA PRUEBA</span>
-    <h2>Qué voy a comprobar</h2>
+    <span class="step">CRITERIOS DE ÉXITO</span>
+    <h2>No evalúo solo que hayas escrito código</h2>
     <div class="rules-grid">
       <div><b>FUNCIONA</b><span>La funcionalidad debe poder demostrarse.</span></div>
       <div><b>SE ENTIENDE</b><span>Debes poder explicar el recorrido del dato.</span></div>
@@ -122,8 +127,22 @@ GET /alumnos/3</pre>
     </div>
   </section>
 
+  <section class="card finalcheck">
+    <span class="step">COMPROBACIÓN FINAL · ANTES DE DECLARAR TU NIVEL</span>
+    <h2>Haz una prueba real de tu aplicación</h2>
+    <div class="final-list">
+      <label>□ React Native arranca correctamente.</label>
+      <label>□ NestJS arranca sin errores.</label>
+      <label>□ Nivel 5: el nombre mostrado procede realmente del backend.</label>
+      <label>□ Nivel 7: los ID 1, 2 y 3 recuperan alumnos diferentes.</label>
+      <label>□ Nivel 10: /alumnos/:id/nivel devuelve la especialidad generada por el Service.</label>
+      <label>□ Controller y Service mantienen responsabilidades diferentes.</label>
+      <label>□ Puedes explicar el recorrido completo del dato desde la pantalla hasta el backend y de vuelta.</label>
+    </div>
+  </section>
+
   <section class="card finish">
-    <span class="step">AL TERMINAR</span>
+    <span class="step">CIERRE · AL TERMINAR</span>
     <h2>Declara únicamente lo que has conseguido funcionando</h2>
     <p>Cuando finalices, utiliza la página de valoración para indicar el nivel más alto que has completado correctamente. Es una <b>nota declarada</b>; el profesor comprobará después el trabajo realizado.</p>
     <a href="../challenge/">IR A LA VALORACIÓN 0 · 5 · 7 · 10</a>
