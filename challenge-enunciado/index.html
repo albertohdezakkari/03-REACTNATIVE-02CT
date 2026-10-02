@@ -48,7 +48,19 @@
         <ol><li>Al abrir la aplicación, realiza automáticamente la petición al endpoint.</li><li>Convierte la respuesta recibida en datos utilizables.</li><li>Guarda el dato recibido en el estado de React.</li><li>Muestra tu nombre en la interfaz.</li></ol>
       </article>
     </div>
-    <div class="flow">NestJS → GET → HTTP → React Native → estado → interfaz</div>
+    <div class="representation">
+  <div class="code-map"><span class="rep-label">REPRESENTACIÓN · BACKEND</span><h3>¿Qué forma tendrá esta pieza?</h3><pre><span class="dim">@Controller('...')</span>
+export class ...Controller {
+
+  <span class="accent">@Get('...')</span>
+  obtenerDato() {
+    return {
+      nombre: <span class="blank">'TU DATO'</span>
+    };
+  }
+}</pre><p>No copies nombres ni rutas de este esquema: úsalo para recordar <b>dónde vive un endpoint GET</b> y qué tipo de dato debe devolver.</p></div>
+  <div class="phone-map"><span class="rep-label">PREVIEW · REACT NATIVE</span><div class="phone"><div class="notch"></div><div class="screen"><small>FULL STACK · NIVEL 1</small><div class="status">● BACKEND CONECTADO</div><h4>Dato recibido</h4><div class="person">👤</div><strong>Tu nombre</strong><p>Recibido desde NestJS</p></div></div><p>La apariencia exacta es libre. Lo importante es que el dato visible <b>proceda del backend</b>.</p></div>
+</div><div class="flow">NestJS → GET → HTTP → React Native → estado → interfaz</div>
     <div class="check">
       <b>CHECKPOINT · PUEDES AVANZAR SI…</b>
       <p>Al abrir la app aparece tu nombre y puedes explicar este recorrido: <b>NestJS → petición HTTP → JSON → estado → pantalla</b>. Si cambias el nombre en el backend, el cambio debe llegar al frontend. No es válido escribir el nombre directamente en React Native.</p>
@@ -79,7 +91,18 @@ GET /alumnos/3</pre>
         <p>Cambiar el ID debe permitir recuperar otro alumno desde NestJS.</p>
       </article>
     </div>
-    <div class="flow">ID → GET /alumnos/:id → @Param → Controller → Service → JSON → React Native</div>
+    <div class="representation">
+  <div class="code-map"><span class="rep-label">REPRESENTACIÓN · BACKEND</span><h3>Ahora aparecen dos responsabilidades</h3><div class="tabs-demo"><b>CONTROLLER</b><span>recibe el ID y delega</span></div><pre>@Get('<span class="accent">:id</span>')
+buscar(@Param('id') id: string) {
+  return this.service.<span class="blank">...</span>(id);
+}</pre><div class="tabs-demo"><b>SERVICE</b><span>contiene los datos y busca</span></div><pre>private alumnos = [ ... ];
+
+buscar(id) {
+  // localizar el alumno
+  // correspondiente
+}</pre><p>El esquema muestra responsabilidades, <b>no la solución completa</b>. Tú decides los nombres y completas la búsqueda.</p></div>
+  <div class="phone-map"><span class="rep-label">PREVIEW · REACT NATIVE</span><div class="phone"><div class="notch"></div><div class="screen"><small>BUSCADOR DE ALUMNOS</small><label>ID DEL ALUMNO</label><div class="fake-input">2</div><div class="fake-button">BUSCAR ALUMNO</div><div class="result"><span>RESULTADO</span><strong>Marcos</strong><p>DAW</p></div></div></div><p>Cambia el ID y el resultado debe cambiar porque se realiza <b>una nueva consulta al backend</b>.</p></div>
+</div><div class="flow">ID → GET /alumnos/:id → @Param → Controller → Service → JSON → React Native</div>
     <div class="check">
       <b>CHECKPOINT · PUEDES AVANZAR SI…</b>
       <p>Escribes <b>1, 2 o 3</b> en React Native y obtienes el alumno correspondiente. Debes poder explicar: <b>ID → URL → @Param → Controller → Service → alumno → JSON → interfaz</b>.</p>
@@ -109,7 +132,13 @@ GET /alumnos/3</pre>
         <p>Puedes mostrar nombre, curso, especialidad y un mensaje personalizado.</p>
       </article>
     </div>
-    <div class="flow">GET /alumnos/:id/nivel → Controller → Service → lógica → JSON → React Native</div>
+    <div class="representation">
+  <div class="code-map"><span class="rep-label">REPRESENTACIÓN · BACKEND</span><h3>El Controller delega; el Service interpreta</h3><pre>@Get(':id/<span class="accent">nivel</span>')
+nivel(@Param('id') id: string) {
+  return this.service.<span class="blank">...</span>(id);
+}</pre><div class="logic-box"><b>SERVICE</b><span>1 · busca alumno</span><span>2 · lee su curso</span><span>3 · aplica la regla DAM / DAW</span><span>4 · construye la respuesta</span></div><p>La regla que genera la especialidad debe quedar en el <b>Service</b>, no dentro del Controller.</p></div>
+  <div class="phone-map"><span class="rep-label">PREVIEW · REACT NATIVE</span><div class="phone"><div class="notch"></div><div class="screen"><small>FICHA DEL ALUMNO</small><div class="fake-input">2</div><div class="fake-button secondary">CONSULTAR NIVEL</div><div class="result"><span>ALUMNO</span><strong>Marcos</strong><p>DAW</p><hr><span>ESPECIALIDAD</span><b>Desarrollo web</b></div></div></div><p>La pantalla representa el <b>resultado final esperado</b>; el diseño concreto puede ser diferente.</p></div>
+</div><div class="flow">GET /alumnos/:id/nivel → Controller → Service → lógica → JSON → React Native</div>
     <div class="check">
       <b>CHECKPOINT · NIVEL 10 CONSEGUIDO SI…</b>
       <p>Con un ID válido recuperas al alumno, el <b>Service</b> genera correctamente su especialidad y React Native muestra los datos recibidos. Debes poder señalar dónde está la lógica y explicar por qué no la has colocado en el Controller.</p>
