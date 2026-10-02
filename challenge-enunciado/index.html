@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>1.2. Challenge de aprendizaje · Enunciado</title>
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <span class="eyebrow">1.2. CHALLENGE DE APRENDIZAJE</span>
+    <h1>NestJS + React Native</h1>
+    <p>Prueba práctica · Del backend a la pantalla</p>
+  </header>
+
+  <section class="card intro">
+    <div>
+      <span class="step">ANTES DE EMPEZAR</span>
+      <h2>Un mismo proyecto. Tres niveles.</h2>
+      <p>No son tres ejercicios independientes. Empieza por el Challenge 1 y amplía la misma aplicación. Si completas el Challenge 2, también has completado el 1. Si completas el 3, has completado los tres.</p>
+    </div>
+    <div class="ladder">
+      <b>CHALLENGE 1 <span>hasta 5</span></b>
+      <b>CHALLENGE 2 <span>hasta 7</span></b>
+      <b>CHALLENGE 3 <span>hasta 10</span></b>
+    </div>
+  </section>
+
+  <section class="challenge c1">
+    <div class="challenge-head">
+      <div><span class="number">01</span><span class="tag">CONEXIÓN BÁSICA</span></div>
+      <strong>HASTA 5 / 10</strong>
+    </div>
+    <h2>Haz que React Native reciba un dato real de NestJS</h2>
+    <p class="lead">Construye la primera conexión completa entre los dos mundos.</p>
+    <div class="cols">
+      <article>
+        <h3>BACKEND · NestJS</h3>
+        <p>Crea un endpoint <code>GET</code> en un Controller que devuelva tu <b>nombre</b> mediante una respuesta JSON.</p>
+        <p>El nombre debe proceder del backend.</p>
+      </article>
+      <article>
+        <h3>FRONTEND · React Native</h3>
+        <p>Cuando se abra la aplicación, realiza automáticamente la petición al backend, guarda la información recibida y muestra tu nombre en pantalla.</p>
+      </article>
+    </div>
+    <div class="flow">NestJS → GET → HTTP → React Native → estado → interfaz</div>
+    <div class="check">
+      <b>LO HAS CONSEGUIDO SI…</b>
+      <p>Tu nombre aparece en React Native y puedes demostrar que procede de la respuesta del backend, no de un texto escrito directamente en la pantalla.</p>
+    </div>
+  </section>
+
+  <section class="challenge c2">
+    <div class="challenge-head">
+      <div><span class="number">02</span><span class="tag">PATH PARAM + SERVICE</span></div>
+      <strong>HASTA 7 / 10</strong>
+    </div>
+    <h2>Busca alumnos mediante su identificador</h2>
+    <p class="lead">Amplía el proyecto anterior. Ahora el frontend decidirá qué alumno quiere consultar.</p>
+    <div class="cols">
+      <article>
+        <h3>BACKEND · NestJS</h3>
+        <p>Trabaja con varios alumnos y permite consultar uno concreto mediante:</p>
+        <pre>GET /alumnos/1
+GET /alumnos/2
+GET /alumnos/3</pre>
+        <p>El <b>Controller</b> recupera el identificador mediante un Path Param y delega en un <b>Service</b>. El Service busca y devuelve el alumno.</p>
+        <p class="no">La colección y la búsqueda no deben quedar resueltas directamente en el Controller.</p>
+      </article>
+      <article>
+        <h3>FRONTEND · React Native</h3>
+        <p>Añade una forma sencilla de introducir un ID, un botón <b>BUSCAR ALUMNO</b> y una zona visual donde mostrar el alumno recibido.</p>
+        <p>Cambiar el ID debe permitir recuperar otro alumno desde NestJS.</p>
+      </article>
+    </div>
+    <div class="flow">ID → GET /alumnos/:id → @Param → Controller → Service → JSON → React Native</div>
+    <div class="check">
+      <b>LO HAS CONSEGUIDO SI…</b>
+      <p>Puedes cambiar el ID desde React Native y obtener alumnos distintos, demostrando el recorrido completo por Controller y Service.</p>
+    </div>
+  </section>
+
+  <section class="challenge c3">
+    <div class="challenge-head">
+      <div><span class="number">03</span><span class="tag">LÓGICA EN SERVICE</span></div>
+      <strong>HASTA 10 / 10</strong>
+    </div>
+    <h2>Haz que el backend interprete los datos</h2>
+    <p class="lead">Completa la misma aplicación incorporando lógica en el Service.</p>
+    <div class="cols">
+      <article>
+        <h3>BACKEND · NestJS</h3>
+        <p>Añade una consulta:</p>
+        <pre>GET /alumnos/:id/nivel</pre>
+        <p>El Controller recupera el ID y delega. El Service localiza al alumno y aplica la lógica necesaria para interpretar su curso/especialidad.</p>
+        <div class="example"><b>Ejemplo de lógica</b><br>DAM → Desarrollo de aplicaciones<br>DAW → Desarrollo web</div>
+        <p class="no">La lógica de interpretación no debe estar en el Controller.</p>
+      </article>
+      <article>
+        <h3>FRONTEND · React Native</h3>
+        <p>Reutiliza el ID del alumno y añade una acción <b>CONSULTAR NIVEL</b>. Recibe el objeto del backend y presenta el resultado de forma clara y visual.</p>
+        <p>Puedes mostrar nombre, curso, especialidad y un mensaje personalizado.</p>
+      </article>
+    </div>
+    <div class="flow">GET /alumnos/:id/nivel → Controller → Service → lógica → JSON → React Native</div>
+    <div class="check">
+      <b>LO HAS CONSEGUIDO SI…</b>
+      <p>La aplicación consulta un alumno, el Service aplica la lógica y React Native muestra correctamente el resultado recibido.</p>
+    </div>
+  </section>
+
+  <section class="card rules">
+    <span class="step">REGLAS DE LA PRUEBA</span>
+    <h2>Qué voy a comprobar</h2>
+    <div class="rules-grid">
+      <div><b>FUNCIONA</b><span>La funcionalidad debe poder demostrarse.</span></div>
+      <div><b>SE ENTIENDE</b><span>Debes poder explicar el recorrido del dato.</span></div>
+      <div><b>SEPARA RESPONSABILIDADES</b><span>Controller recibe HTTP; Service concentra datos/lógica cuando corresponde.</span></div>
+      <div><b>EL FRONT CONSUME EL BACK</b><span>Los datos mostrados deben proceder realmente de NestJS.</span></div>
+    </div>
+  </section>
+
+  <section class="card finish">
+    <span class="step">AL TERMINAR</span>
+    <h2>Declara únicamente lo que has conseguido funcionando</h2>
+    <p>Cuando finalices, utiliza la página de valoración para indicar el nivel más alto que has completado correctamente. Es una <b>nota declarada</b>; el profesor comprobará después el trabajo realizado.</p>
+    <a href="../challenge/">IR A LA VALORACIÓN 0 · 5 · 7 · 10</a>
+  </section>
+</main>
+</body>
+</html>
